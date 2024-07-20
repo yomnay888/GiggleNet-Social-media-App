@@ -1,7 +1,5 @@
-import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
-import { hashPassword, comparePassword } from '../middlewares/authMiddleware.js';
-
+import { hashPassword, comparePassword,generateToken } from '../middlewares/authMiddleware.js';
 class AuthService {
     
   static async signUp(username, email, password) {
@@ -24,9 +22,9 @@ class AuthService {
       if (!isMatch) {
         throw new Error('Incorrect password');
       }
-      return {user};
+      return generateToken( {userId:user.id, username: user.username} );
     } catch (error) {
-      throw new Error(`Error signing in: ${error.message}`);
+      throw new Error(`Error logging in: ${error.message}`);
     }
   }
 

@@ -13,8 +13,9 @@ class authController{
   static async logIn(req, res) {
     const { email, password } = req.body;
     try {
-      const user = await authService.logIn(email, password);
-      res.status(201).json({ message: 'User logged In successfully', user: user });
+      const token = await authService.logIn(email, password);
+      res.cookie('token', token, {httpOnly: true, secure: true, sameSite: 'none'});
+      res.status(201).json({ message: 'User logged In successfully', token : token });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
