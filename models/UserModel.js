@@ -7,7 +7,7 @@ class User {
         'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
         [username, email, hashedPassword]
       );
-         return rows; // i think i should return a jwt 
+         return rows;
     } catch (error) {
       throw new Error(`Error adding user: ${error.message}`);
     }
@@ -15,9 +15,13 @@ class User {
   
   static async getUserByEmail(email){
     const [users] = await pool.query('select * from users where email = ?',[email]);
-    console.log(users[0]);
     return users[0];
   }
+  
+  static async getUserByUsername(username){
+    const [users] = await pool.query('select * from users where username = ?',[username]);
+    return users[0];
+  }  
 
 }
 

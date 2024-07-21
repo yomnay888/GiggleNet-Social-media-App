@@ -46,7 +46,6 @@ export const verifyToken =  (token) =>{
       return  res.status(401).json({error: "Unauthorized"});
     }
     req.userData = userData;
-    console.log("Inside Verify User: ", req.userData);
     next();
   }catch(error){
    return res.status(401).json({message : error.message});

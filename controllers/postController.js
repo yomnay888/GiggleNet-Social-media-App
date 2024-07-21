@@ -10,20 +10,37 @@ class postController{
                 res.status(400).json({ error: error.message });    
         }
     }
-        static async updatePost(){
-            const { title, content} = req.body;
+        static async updatePost(req,res){
+            const { title, content, post_id} = req.body;
+            const userId = req.userData.userId;
             try {
-                const updatedPost = await postService.updatePost(title, content);
+                const updatedPost = await postService.updatePost(title, content,post_id,userId);
                 res.status(201).json({ message: 'Post updated successfully', post: updatedPost });
             } catch (error) {
                 res.status(400).json({ error: error.message });    
         }
         }
-        static async deletePost(){
-            
+        static async deletePost(req,res){
+            const {post_id} = req.body;
+            const userId = req.userData.userId;
+            try{
+                await postService.deletePost(post_id,userId);
+                res.status(201).json({ message: 'Post deleted successfully'});
+            }
+            catch(error){
+                res.status(400).json({ error: error.message });    
+            }
         }
-        static async getAllPosts(){
-            
+        static async getAllUserPosts(req,res){
+            const userId = req.userData.userId;
+            try{
+                const posts = await postService.getAllUserPosts(userId);
+                res.status(200).json({ posts });
+            }
+            catch(error){
+                res.status(400).json({ error: error.message });
+            }
         }
+        
 }
 export default postController;
