@@ -1,14 +1,18 @@
 import express from 'express';
 import commentController from '../controllers/commentController.js';
-import { verifyUser } from '../middlewares/authMiddleware.js';
+import { pagination } from '../middlewares/pagination.js';
+import CommentModel from '../models/CommentModel.js';
 const router = express.Router();
+// Creation of a comment
+router.post('/posts/:postId/comments', commentController.createComment);
 
-router.post('/createComment', verifyUser,commentController.createComment);
+// Updating a comment
+router.patch('/posts/:postId/comments/:commentId', commentController.updateComment);
 
-router.patch('/updateComment',verifyUser, commentController.updateComment);
+// Deleting a comment
+router.delete('/posts/:postId/comments/:commentId', commentController.deleteComment);
 
-router.delete('/deleteComment', verifyUser,commentController.deleteComment);
-
-router.get('/getAllPostComments',verifyUser, commentController.getAllPostComments);
+// Getting all comments of a post
+router.get('/posts/:postId/comments', pagination(CommentModel),commentController.getAllPostComments);
 
 export default router;

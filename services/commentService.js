@@ -22,10 +22,10 @@ class commentService{
             throw new Error('Comment not deleted or not found');
         }
     }
-    static async getAllPostComments(post_id){
-        const comments = await Comment.getAllPostComments(post_id);
-        return comments;
-    }
+    // static async getAllPostComments(post_id){
+    //     const comments = await Comment.getAllPostComments(post_id);
+    //     return comments;
+    // }
     static async getCommentById(comment_id){
         const comment = await Comment.getCommentById(comment_id);
         return comment;

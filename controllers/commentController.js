@@ -2,7 +2,8 @@ import commentService from '../services/commentService.js';
 class commentController{
 
     static async createComment(req,res){
-       const {post_id , content} = req.body;
+        const post_id = req.params.postId;
+       const  content = req.body;
        const userId = req.userData.userId;
         try{
             const newComment = await commentService.createComment(post_id,userId ,content);
@@ -13,7 +14,9 @@ class commentController{
     }
 
     static async updateComment(req,res){
-        const {comment_id ,post_id,content} = req.body;
+        const post_id = req.params.postId;
+        const comment_id = req.params.commentId;
+        const content = req.body;
         const userId = req.userData.userId;
         try{
             const updatedComment = await commentService.updateComment(comment_id,post_id,userId ,content);
@@ -24,7 +27,8 @@ class commentController{
     }
 
     static async deleteComment(req,res){
-        const {comment_id , post_id} = req.body;
+        const post_id = req.params.postId;
+        const comment_id = req.params.commentId;
         const userId = req.userData.userId;
         try{
             await commentService.deleteComment(comment_id,post_id,userId);
@@ -33,14 +37,9 @@ class commentController{
             res.status(400).json({error:error.message});
         }
     }
+
     static async getAllPostComments(req,res){
-        const {post_id} = req.body;
-        try{
-            const comments = await commentService.getAllPostComments(post_id);
-            res.status(200).json({ comments: comments });
-        }catch(error){
-            res.status(400).json({error:error.message});
-        }
+        return res.status(200).json(req.paginatedResult);
     }
 }
 export default commentController;

@@ -26,5 +26,13 @@ class postService{
         const posts = await Post.getAllUserPosts(userId);
         return posts;
     }
+    static async getAllPosts(startIndex,limit){
+        const posts = await Post.getAllPosts(startIndex,limit);
+        return posts;
+    }
+    static async countPosts(){
+        const totalPosts = await Post.countPosts();
+        return totalPosts;
+    }
 }
 export default postService;

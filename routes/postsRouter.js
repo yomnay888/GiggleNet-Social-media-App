@@ -1,14 +1,26 @@
 import express from 'express';
 import postController from '../controllers/postController.js';
-import { verifyUser } from '../middlewares/authMiddleware.js';
 const router = express.Router();
+import { pagination } from '../middlewares/pagination.js';
+import PostModel from '../models/PostModel.js';
+//creation of a post
 
-router.post('/createPost', verifyUser,postController.createPost);
+router.post('/posts',postController.createPost);
 
-router.patch('/updatePost',verifyUser, postController.updatePost);
+//updating a post
 
-router.delete('/deletePost', verifyUser,postController.deletePost);
+router.patch('/posts/:id',postController.updatePost);
 
-router.get('/getAllUserPosts',verifyUser, postController.getAllUserPosts);
+//deleting a post
+
+router.delete('/posts/:id',postController.deletePost);
+
+//getting all posts of a user
+
+router.get('/user-Posts',postController.getAllUserPosts);
+
+//getting all posts
+
+router.get('/posts',pagination(PostModel),postController.getAllPosts);
 
 export default router;
