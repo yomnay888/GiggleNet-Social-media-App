@@ -1,33 +1,78 @@
 import Comment from '../models/CommentModel.js';
 class commentService{
-    static async createComment(post_id,userId ,content){
-        const rows = await Comment.createComment(post_id,userId ,content);
-        if(rows.affectedRows === 0){
-            throw new Error('Comment not created');
+    static async createComment(postId,userId,content) {
+        const comment = await Comment.createComment(postId,userId,content);
+        if (comment === null) {
+            throw new Error('comment not created');
         }
-        const newComment = await Comment.getCommentById(rows.insertId);
-        return newComment;
+        return comment.toJSON();
     }
-    static async updateComment(comment_id,post_id,userId ,content){
-        const rows = await Comment.updateComment(comment_id,post_id,userId ,content);
-        if(rows.affectedRows === 0){
-            throw new Error('Comment not updated');
+    static async updateComment(commentId,postId,userId ,content){
+        const comment = await Comment.updateComment(commentId,postId,userId ,content);
+        if (comment === null) {
+            throw new Error('comment not updated, either comment id is invalid or you are not the owner of the comment');
         }
-        const updatedComment = await Comment.getCommentById(comment_id);
-        return updatedComment;
+        return comment;
     }
-    static async deleteComment(comment_id,post_id, userId){
-        const rows = await Comment.deleteComment(comment_id,post_id, userId);
-        if(rows.affectedRows === 0){
-            throw new Error('Comment not deleted or not found');
-        }
+    static async deleteComment(commentId,postId, userId){
+        const result = await Comment.deleteComment(commentId,postId, userId);
+        console.log('result:', result);
+        if (result === 0) {
+            throw new Error('comment not deleted, either comment id is invalid or you are not the owner');
     }
-    // static async getAllPostComments(post_id){
-    //     const comments = await Comment.getAllPostComments(post_id);
+}
+static async getCommentsByPagination(page, limit, postId) {
+    const skip = (page - 1) * limit; // startIndex
+    
+    const comments = await Comment.getCommentsByPagination(limit, skip, postId);
+    const totalCommentsCount = await Comment.getTotalCommentsCount(postId);
+    
+    const paginationResults = {
+        comments: comments,
+        totalCommentsCount: totalCommentsCount,
+    };
+    
+    if(skip > 0) {
+        paginationResults.previousPage = page - 1
+    }
+    
+    const endIndex = page * limit;
+    if (endIndex < totalCommentsCount) {
+        paginationResults.nextPage = page + 1
+    }
+        
+    return paginationResults;
+}
+
+static async likeComment (commentId, userId) {
+    const comment = await Comment.getCommentById(commentId);
+
+    await Comment.likeComment(commentId, userId);
+
+    return await Comment.getCommentLikes(comment);
+}
+
+static async unlikeComment (commentId, userId) {
+    const comment = await Comment.getCommentById(commentId);
+
+    await Comment.unlikeComment(commentId, userId);
+
+    return await Comment.getCommentLikes(comment);
+}
+
+static async getCommentLikes (commentId) {
+    const comment = await Comment.getCommentById(commentId);
+
+    return await Comment.getCommentLikes(comment);
+}
+
+
+    // static async getAllPostComments(postId){
+    //     const comments = await Comment.getAllPostComments(postId);
     //     return comments;
     // }
-    static async getCommentById(comment_id){
-        const comment = await Comment.getCommentById(comment_id);
+    static async getCommentById(commentId){
+        const comment = await Comment.getCommentById(commentId);
         return comment;
     }
 }

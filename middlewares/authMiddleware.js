@@ -28,7 +28,7 @@ export const generateToken = (payload) =>{
 export const verifyToken =  (token) =>{
   try {
       const decoded =  jwt.verify(token, process.env.JWT_SECRET);
-      return decoded;
+      return decoded.userId;
   }catch(error) {
       console.error("Inside Verify Token: ", error);
       return null;
@@ -42,18 +42,19 @@ export const verifyToken =  (token) =>{
       return res.status(401).json({error: "Unauthorized"});
     }
     const token = authHeader.split(' ')[1];
-    const userData= verifyToken(token);
-    const session = SessionModel.getSessionByTokenAndUserId(token, userData.userId);
+    const userId= verifyToken(token);
+    const session = await SessionModel.getSessionByTokenAndUserId(token, userId);
     if(!session || session.expired_at < new Date()){
       return  res.status(401).json({error: "Unauthorized"});
     }
-    if(!userData){
+    if(!userId){
       return  res.status(401).json({error: "Unauthorized"});
     }
-    req.userData = userData;
-    if(req.path === '/logout'){
+    req.userId = userId;
+    if (req.path === '/auth/logout') {
       req.token = token;
-    }
+  }
+    console.log(req.token, userId);
     next();
   }catch(error){
    return res.status(401).json({message : error.message});

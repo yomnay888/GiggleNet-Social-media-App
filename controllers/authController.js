@@ -22,7 +22,7 @@ class authController{
   }
 
   static async logOut(req,res){
-    const userId = req.userData.userId;
+    const userId = req.userId;
     const token = req.token;
     try{
     await authService.logOut(userId, token);

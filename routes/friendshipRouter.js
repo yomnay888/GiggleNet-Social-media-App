@@ -9,7 +9,7 @@ router.patch('/friendship/:friendId/accept', friendShipController.acceptFriendRe
 //reject friend request
 router.delete('/friendship/:friendId/cancel', friendShipController.cancelFriendRequest);
 //decline friend request
-router.delete('/friendship/:friendId/decline', friendShipController.declineFriendRequest);
+// router.delete('/friendship/:friendId/decline', friendShipController.declineFriendRequest);
 //unfriend
 router.delete('/friendship/:friendId', friendShipController.unfriend);
 //get friends

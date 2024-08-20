@@ -1,28 +1,32 @@
-import pool from '../config/database.js'; // Adjust the import path as necessary
-
-class User {
+import User from './definitions/User.js';
+class UserModel {
   static async addUser(username, email, hashedPassword) {
-    try {
-      const [rows] = await pool.query(
-        'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
-        [username, email, hashedPassword]
-      );
-         return rows;
-    } catch (error) {
-      throw new Error(`Error adding user: ${error.message}`);
-    }
+      const user = await User.create({
+        username,
+        email,
+        password: hashedPassword,
+      });
+      return user;
   }
   
   static async getUserByEmail(email){
-    const [users] = await pool.query('select * from users where email = ?',[email]);
-    return users[0];
+     const user = await User.findOne({
+       where: {
+         email: email
+       },
+     });  
+     return user;
   }
   
   static async getUserByUsername(username){
-    const [users] = await pool.query('select * from users where username = ?',[username]);
-    return users[0];
+    const user = await User.findOne({
+      where: {
+        username: username
+      },
+    });
+    return user;
   }  
 
 }
 
-export default User;
+export default UserModel;

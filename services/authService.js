@@ -29,9 +29,8 @@ class AuthService {
       if (!isMatch) {
         throw new Error('Incorrect password');
       }
-      const token = generateToken({ userId: user.id, username: user.username });
-
-      const session = await SessionModel.createSession(token, user.id , new Date( Date.now() + 1000*60*60));
+      const token = generateToken({ userId: user.userId});
+      const session = await SessionModel.createSession(token, user.userId , new Date( Date.now() + 1000*60*60));
 
       if (session.affectedRows === 0) {
         throw new Error('Error adding session to database');

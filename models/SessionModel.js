@@ -1,16 +1,30 @@
-import pool from '../config/database.js';
+import Session from './definitions/Session.js';
 class SessionModel{
     static async getSessionByTokenAndUserId(token, userId) {
-        const [rows] = await pool.query('SELECT * FROM sessions WHERE token = ? AND user_id = ?', [token, userId]);
-        return rows[0];
+        const session = await Session.findOne({
+            where: {
+                token: token,
+                userId: userId
+            }
+        });
+        return session;
     }
     static async createSession(token, userId , expiredAt) {
-       const [rows] = await pool.query('INSERT INTO sessions (token, user_id, expired_at) VALUES (?, ?, ?)', [token, userId, expiredAt]);
-         return rows;
+        const session = await Session.create({
+            token: token,
+            userId: userId,
+            expiredAt: expiredAt
+        });
+        return session;
     }
     static async deleteSession(userId,token){
-        const [rows] = await pool.query(`DELETE FROM sessions WHERE user_id = ? AND token = ?`, [userId, token]);
-        return rows;
+       const result = await Session.destroy({
+           where:{
+               userId: userId,
+               token: token
+           }
+       });
+       return result;
     }
     
 }
