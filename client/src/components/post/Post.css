@@ -1,0 +1,156 @@
+
+.post-container {
+    padding: 12px;
+    margin-bottom: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.post-container .top-section {
+    display: flex;
+    margin-bottom: 7px;
+}
+
+.post-container .top-section img,
+.post-container .comment-section img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-container .top-section .text-info  {
+    margin-left: 7px;
+}
+
+.post-container .top-section .text-info h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #050505;
+}   
+
+.post-container .top-section .text-info h3:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}   
+
+.post-container .top-section .text-info p {
+    font-size: 13px;
+    color: #949698;
+}
+
+.post-container .top-section i {
+    margin-left: auto;
+    width: 33px;
+    height: 33px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #606266;
+}
+
+.post-container .top-section i:hover {
+    background-color: #F2F2F2;
+    cursor: pointer;
+}
+
+
+.post-container .post-content {
+    margin-bottom: 10px;
+
+}
+
+.post-container .bottom-section {
+    display: flex;
+    align-items: center;
+}
+
+.post-container .bottom-section div{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: #606266;
+    padding: 5px 0;
+    border-radius: 4px;
+    margin: 4px 0;
+}
+
+.post-container .bottom-section div:hover {
+    background-color: #F2F2F2;
+    cursor: pointer;
+}
+
+.post-container .bottom-section div p{
+    margin-left: 5px;
+}
+
+.post-container hr {
+    height: 1px;
+    background-color: #d6d6d6;
+    border: none;
+
+}
+
+.post-container .comment-section {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.post-container .comment-section input {
+    margin-left: 10px;
+    width: 100%;
+    padding: 10px 10px 10px 15px;
+    border: none;
+    border-radius: 20px;
+    background-color: #F0F2F5;
+    font-size: 15px;
+}
+
+.post-container .comment-section input:focus {
+    outline: none;
+}
+
+
+.stats-section {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.stats-section div {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #656E79;
+}
+
+.stats-section .likes-stats i {
+    margin-left: auto;
+    width: 33px;
+    height: 33px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+}
+.stats-section .likes-stats p {
+    font-size: 15px;
+    align-self: center;
+}
+
+.stats-section .comments-stats {
+    margin-left: auto;
+}   
+
+.stats-section .comments-stats i {
+    transform: rotateY(180deg);
+    margin-right: 6px;
+    color: var(--main--gray--color--post);
+}

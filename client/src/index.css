@@ -1,0 +1,61 @@
+/* Start Global Variables */
+
+/* :root {
+
+} */
+
+/* End Global Variables */
+
+/* Start Global Rules */
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: "Inter", Arial, Helvetica, sans-serif
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
+/* .container {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  /* width: 600px; */  /* removed this to prevent scrolling 
+} 
+*/
+
+/* Small screens */
+/* @media (min-width: 768px) {
+  .container {
+      width: 750px;
+  }
+} */
+
+/* Medium screens */
+/* @media (min-width: 992px) {
+  .container {
+      width: 970px;
+  }
+} */
+
+/* Large screens */
+/* @media (min-width: 1200px) {
+  .container {
+      width: 1170px;
+  }
+} */
+/* End Global Rules */

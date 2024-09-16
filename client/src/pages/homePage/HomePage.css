@@ -1,0 +1,10 @@
+
+.main-sections-container {
+    background-color: #F0F2F5;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    display: flex;
+    justify-content: space-evenly;  /* check for potential change later */
+}

@@ -1,0 +1,135 @@
+:root {
+    --main--gray--color: #F0F2F5;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    /* background-color: var(--main--color); */
+    z-index: 100;
+}
+
+header div {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+header img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    width: auto;    
+    cursor: pointer;
+}
+
+header .left-container {
+    position: relative;
+}
+
+header .left-container .search-icon{
+    position: absolute;
+    left: 67px;
+    z-index: 1000;
+}
+
+header .left-container input {
+    margin-left: 10px;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--main--gray--color);
+    font-size: 17px;
+    color: #65676B;
+    letter-spacing: 0.75px;
+    z-index: 100;
+}
+
+header .left-container input:focus {
+    outline: none;
+    /* margin-right: 50px; */
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); */
+}
+ /* .search-box:focus-within{
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        width: 400px;
+        display:flex;
+        flex-direction:column;
+    } */
+
+    .left-container .results {
+        position: absolute;
+        top: 0; /* Adjust based on your layout */
+        left:-20px;
+        display: flex;
+        flex-direction: column;
+        overflow-y:hidden;
+        width: 400px; /* Adjust width as needed */
+        height:auto;
+        max-height: 500px; /* Set maximum height */
+        background-color: white; /* Background color */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Optional: for shadow */
+        z-index: 10; /* Ensure it appears above other elements */
+        padding: 10px; /* Optional: spacing inside the dropdown */
+        box-sizing: border-box; /* Ensure padding is included in the height and width */
+    }
+    
+    /* Optional: style for individual result items */
+    .left-container .results .result-item {
+        padding: 10px; /* Space around each item */
+        cursor: pointer; /* Indicate clickable items */
+        border-bottom: 1px solid #eee; /* Separator between items */
+        height:50px;
+        display:flex;
+        width: 100%;
+    }
+    
+    .left-container .results .result-item:first-child {
+        margin-top: 60px;
+        border-top: none;
+    }
+    .left-container .results .result-item:last-child {
+        border-bottom: none; /* Remove border from the last item */
+    }
+    
+    .left-container .results .result-item:hover {
+        background-color: #f0f0f0; /* Highlight color on hover */
+    }
+   .left-container .close-search-icon{
+        position: fixed;
+        left: 20px;
+        top: 20px;
+        cursor: pointer;
+        z-index: 1000;
+    }
+
+    .left-container .no-results {
+        padding: 10px;
+        text-align: center;
+        color: #65676B;
+        margin-top: 60px;
+    }
+    .left-container .results .result-item img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+    }
+
+header .right-container .notification-icon {
+    margin-right: 20px;
+    font-size: 21px;
+    width: 41px;
+    height: 41px;
+    background-color: var(--main--gray--color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
