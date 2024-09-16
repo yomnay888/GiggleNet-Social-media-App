@@ -7,8 +7,7 @@ const Session = sequelize.define('session', {
         autoIncrement: true
     },
     token: {
-        type: DataTypes.TEXT,
-        allowNull: false
+        type: DataTypes.TEXT
     },
     expiredAt: {
         type: DataTypes.DATE,

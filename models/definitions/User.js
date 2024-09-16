@@ -13,6 +13,10 @@ const User = sequelize.define('user', {
         allowNull: false,
         unique: true
     },
+   name: {
+        type: DataTypes.STRING,
+        allowNull: false
+   },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -25,10 +29,14 @@ const User = sequelize.define('user', {
     bio: {
         type: DataTypes.STRING,
         allowNull: true
-    }
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW
+    },
 },
     {
-        createdAt: true,
         updatedAt: false
     }
 );

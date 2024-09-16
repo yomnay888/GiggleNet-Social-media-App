@@ -1,13 +1,20 @@
 import Comment from './definitions/Comment.js';
 import CommentLike from './definitions/CommentLike.js';
-
+import Post from './definitions/Post.js';
 class CommentModel {
         static async createComment(postId, userId, content) {
                 const comment = await Comment.create({
                         userId: userId,
                         content: content,
                         postId: postId
-                    })        
+                    })      
+                    if (!comment) {
+                        throw new Error('Comment not created');
+                    }
+                    await Post.increment('commentsCount', {
+                        by: 1,
+                        where: { postId },
+                  } );
                     return comment;
         }
         static async updateComment(commentId, postId, userId, content) {
@@ -33,6 +40,13 @@ class CommentModel {
                             postId: postId
                         }
                     })
+                    if (!result) {
+                        throw new Error('Comment not deleted or not found');
+                    }
+                    await Post.decrement('commentsCount', {
+                        by: 1,
+                        where: { postId },
+                  } );
                     return result;
         }
 

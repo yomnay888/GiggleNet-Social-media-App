@@ -1,4 +1,4 @@
-import Friendship from "../models/friendshipModel.js";
+import Friendship from "../models/FriendshipModel.js";
 import {FRIENDSHIP_STATUS} from "../constants/friendshipStatus.js";
 class friendshipService {
   static async sendFriendRequest(userId, friendId) {

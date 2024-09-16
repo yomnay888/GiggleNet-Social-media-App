@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 const saltRounds = 10;
 import jwt from 'jsonwebtoken';
-import SessionModel from '../models/sessionModel.js';
+import SessionModel from '../models/SessionModel.js';
 
 export const hashPassword = async (password) => {
   try {

@@ -48,6 +48,7 @@ class postController{
        static async getPostsByPagination (request, response){
             const page = +request.query.page  ||1;
             const limit = +request.query.limit  ||10;
+            console.log(page,limit);
             try{
                 const paginationResults = await postService.getPostsByPagination(page, limit);
                 return response.status(200).json(paginationResults);

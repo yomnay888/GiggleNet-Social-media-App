@@ -1,9 +1,10 @@
 import User from '../models/UserModel.js';
-import SessionModel from '../models/sessionModel.js';
+import SessionModel from '../models/SessionModel.js';
 import { hashPassword, comparePassword,generateToken } from '../middlewares/authMiddleware.js';
+import Session  from '../models/definitions/Session.js';
 class AuthService {
     
-  static async signUp(username, email, password) {
+  static async signUp(username,name, email, password) {
     try {
       const hashedPassword = await hashPassword(password);
            if( await User.getUserByEmail(email)){
@@ -12,7 +13,7 @@ class AuthService {
            if(await User.getUserByUsername(username)) {
             throw new Error('User with this username already exists');
             }
-      const newUser = await User.addUser(username, email, hashedPassword);
+      const newUser = await User.addUser(username,name, email, hashedPassword);
          return newUser;
     } catch (error){
       throw new Error(`${error.message}`);
@@ -27,21 +28,43 @@ class AuthService {
       }
       const isMatch = await comparePassword(password, user.password);
       if (!isMatch) {
+        console.log('Incorrect password');
         throw new Error('Incorrect password');
       }
-      const token = generateToken({ userId: user.userId});
-      const session = await SessionModel.createSession(token, user.userId , new Date( Date.now() + 1000*60*60));
+      const session = await Session.create({
+        userId: user.userId,
+        expired_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7 )
+    });
+    
+    const token = generateToken( {userId:user.userId, sessionId: session.sessionId} );
+    
+    session.token = token;
+    await session.save();
 
-      if (session.affectedRows === 0) {
-        throw new Error('Error adding session to database');
-      }
+    // end of the part to edit
 
-      return token;
-
-    } catch (error) {
-      throw new Error(`Error logging in: ${error.message}`);
+    // const result = await SessionModel.createSession(user.userId, token);
+    if(session === null){
+        throw new Error('Failed to create session');
     }
+    
+    const loginData = {
+        token: token,
+        user: {
+            firstname: user.firstname,
+            lastname: user.lastname,
+            username: user.username,
+            email: user.email,
+            bio: user.bio
+        }
+    }
+    // console.log(loginData);
+    return loginData; 
+  } catch (error) {
+    throw new Error(`Error logging in: ${error.message}`);
   }
+}
+  
 
   static async logOut(userId, token) {
     try {

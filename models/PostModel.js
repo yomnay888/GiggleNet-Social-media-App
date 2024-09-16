@@ -1,5 +1,7 @@
 import PostLike from "./definitions/PostLike.js";
 import Post from "./definitions/Post.js";
+import user from "./definitions/User.js";
+import sequelize from 'sequelize';
 class PostModel {
         static async createPost(content, userId) {
         const post = await Post.create({
@@ -50,51 +52,59 @@ class PostModel {
                 return post;
         }
 
-        static async getPostsByPagination(limit, skip) {
-                const posts = await Post.findAll({
-                    limit: limit,
-                    offset: skip,
-                    // order: [['createdAt', 'DESC']],
-                    raw: true
-                });
-        
-                return posts;
-            }
+       // Get paginated posts, no need to count likers dynamically anymore
+       static async getPostsByPagination(limit, skip) {
+        const posts = await Post.findAll({
+            include: [
+                // Include the user who created the post
+                {
+                    model: user,
+                    attributes: ['name'] // Fetch all attributes from the User model
+                }
+            ],
+            limit,
+            offset: skip,
+            order: [['createdAt', 'DESC']] // Sort by most recent posts
+        });
+        return posts;
+    }
+                        // Count the likers
             static async getTotalPostsCount() {
                 const totalPostsCount = await Post.count();
                 return totalPostsCount;
             }
-        static async likePost(postId, userId) {
+            static async likePost(postId, userId) {
+                // Use findOrCreate to like the post
                 const [like, created] = await PostLike.findOrCreate({
-                    where: {
-                        postId: postId,
-                        userId: userId
-                    }
-                })
-        
-                if (!created) 
-                    throw new Error('Post Already Liked');
-        
-                if (!like) 
-                    throw new Error('Post Not Liked');
-            }
-        
-            static async unlikePost(postId, userId) {
-                const result = await PostLike.destroy({
-                    where: {
-                        postId: postId,
-                        userId: userId
-                    }
+                    where: { postId, userId }
                 });
-                
-                if (!result) 
+            
+                // If the like already exists, throw an error
+                if (!created) {
+                    throw new Error('Post Already Liked');
+                }
+            
+                // Increment the likersCount in the Post table
+                await Post.increment('likersCount', { by: 1, where: { postId } });
+            }
+            
+            static async unlikePost(postId, userId) {
+                // Find and destroy the like
+                const result = await PostLike.destroy({
+                    where: { postId, userId }
+                });
+            
+                if (!result) {
                     throw new Error('Post Not Unliked');
+                }
+            
+                // Decrement the likersCount in the Post table
+                await Post.decrement('likersCount', { by: 1, where: { postId } });
             }
             
             static async getPostLikes(post) {
-                const likes = await post.countLikers();
-                return likes;
+                // Return the likersCount directly from the post instance
+                return post.likersCount;
             }
-        
 }
 export default PostModel;

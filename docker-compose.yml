@@ -1,0 +1,27 @@
+version: '3.9'
+services: #is the container
+  node_app:
+    container_name: node_app
+    build: .
+    image: node_app #name of the image
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      -  db
+    restart: always #restart the container if it fails
+  db:
+    container_name: db
+    image: mysql:5.7
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 25402212Yomna
+      MYSQL_DATABASE: blogDataBase
+      MYSQL_PASSWORD: 25402212Yomna
+      restart: always
+    volumes: #to store the data
+      - db_data:/var/lib/mysql #store the data in the volume
+volumes:
+  db_data: #store the data in the volume
