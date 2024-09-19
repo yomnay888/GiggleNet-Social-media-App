@@ -51,14 +51,13 @@ class AuthService {
     const loginData = {
         token: token,
         user: {
-            firstname: user.firstname,
-            lastname: user.lastname,
+            name: user.name,
             username: user.username,
             email: user.email,
-            bio: user.bio
+            bio: user.bio,
+            profilePicture: user.profilePicture
         }
     }
-    // console.log(loginData);
     return loginData; 
   } catch (error) {
     throw new Error(`Error logging in: ${error.message}`);

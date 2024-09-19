@@ -1,0 +1,28 @@
+.profilePicture-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+.profilePicture-container img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 10px;
+}
+.profilePicture-container button{
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px;
+}
+.profilePicture-container .save-button{
+    background-color:var(--main--color);
+}
+.profilePicture-container .cancel-button{
+    background-color:red;
+}

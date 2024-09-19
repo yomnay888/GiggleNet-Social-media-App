@@ -1,0 +1,50 @@
+.friends-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Space between friend cards */
+}
+
+.friend-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    width: 100px; /* Adjust as needed */
+    transition: box-shadow 0.2s;
+}
+
+.friend-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+}
+
+.friend-pic {
+    width: 60px; /* Adjust size */
+    height: 60px; /* Maintain aspect ratio */
+    border-radius: 50%; /* Circular profile picture */
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.pagination button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.pagination button:hover {
+    background-color: #f0f0f0; /* Light grey on hover */
+}
+
+.pagination button:disabled {
+    background-color: #e0e0e0; /* Grey for disabled button */
+    cursor: not-allowed; /* Change cursor for disabled state */
+    border-color: #aaa; /* Darker border for disabled button */
+}

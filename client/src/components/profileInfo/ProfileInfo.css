@@ -1,0 +1,63 @@
+.profile-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.profile-info hr{
+    width: 100%;
+    margin: 10px 0;
+}
+.profile-info .bio p{
+    font-size: 20px;
+    font-weight: 500;
+    color: #65676B;
+}
+.profile-info h2{
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+.profile-info .bio{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bio .edit-icon{
+    cursor: pointer;
+    margin-left: 10px;
+    color: #65676B;
+}
+.bio .edit-icon:hover{
+    color: black;
+}
+.bio button{
+    margin-left: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.bio .save-button{
+    background-color: var(--main--color);
+}
+.bio .cancel-button{
+    background-color:red;
+}
+.bio input{
+    margin-left: 10px;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--main--gray--color);
+    font-size: 17px;
+    letter-spacing: 0.75px;
+}
+.bio input:focus{
+    outline: none;
+}

@@ -35,6 +35,17 @@ class UserModel {
         throw new Error('Error during search operation');
     }
 };
+  static async updateProfilePicture(userId, filePath){
+    const user = await User.findByPk(userId);
+    user.profilePicture = filePath;
+    await user.save();
+  }
+
+  static async updateBio(userId, bio){  
+    const user = await User.findByPk(userId);
+    user.bio = bio;
+    await user.save();
+  }
 
   static async getUserByUsername(username){
     const user = await User.findOne({

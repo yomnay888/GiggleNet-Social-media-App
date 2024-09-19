@@ -1,0 +1,43 @@
+.profile-page {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+.top-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.friends-section, .posts-section {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+}
+
+h2 {
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.friends-section {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.friends-section .friend {
+    margin: 10px;
+    text-align: center;
+}
+
+.posts-section {
+    margin-top: 30px;
+}
+
+.post {
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import "./Header.css";
 import { fetchSearchResults } from '../../services/searchService'; // Adjust path as needed
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
-
+  const userJson = localStorage.getItem('user');
+  const user = JSON.parse(userJson);
+  const profilePicture= `${import.meta.env.VITE_BACKEND_BASE_URL}${user.profilePicture}`;
   useEffect(() => {
     if (!query) {
       setResults([]);
@@ -23,7 +26,7 @@ function Header() {
     }
     fetchResults();
   }, [query]);
-
+  const navigate = useNavigate();
   const handleFocus = () => setIsFocused(true);
 
   const clearSearch = () => {
@@ -33,6 +36,9 @@ function Header() {
     setIsFocused(false);
   };
 
+  const handleProfileClick=()=>{
+    navigate('/profile');
+  }
   return (
     <header>
       <div className="left-container">
@@ -72,7 +78,7 @@ function Header() {
       </div>
       <div className="right-container">
         <i className="fa-regular fa-bell notification-icon"></i>
-        <img src="./logo.png" alt="logo" className="profile-picture" />
+        <img src={profilePicture} alt="profile-picture" className="profile-picture" onClick={handleProfileClick} />
       </div>
     </header>
   );

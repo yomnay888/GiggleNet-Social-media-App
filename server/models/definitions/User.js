@@ -35,6 +35,10 @@ const User = sequelize.define('user', {
         allowNull: false,
         defaultValue: DataTypes.NOW
     },
+    profilePicture:{
+        type: DataTypes.STRING,
+        allowNull: true
+    },
 },
     {
         updatedAt: false

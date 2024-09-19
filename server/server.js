@@ -21,21 +21,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-
+app.use('/uploads', express.static('uploads')); // serve the uploads folder
 app.use(authRoutes);
-
 app.use(verifyUser);
-
 app.use(userRoutes);
 app.use(postRoutes);
 app.use(commentsRoutes);
 app.use(friendshipRouter);
+
+
 Object.values(sequelize.models).forEach((model) => {
     if (model.associate) {
       model.associate(sequelize.models); // Pass the models object to each associate method
     }
 });
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 sequelize.sync().then(() => {
     console.log('Database synced');    
     app.listen(PORT, () => { console.log(`app running on port ${PORT}`) });
