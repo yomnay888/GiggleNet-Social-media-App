@@ -51,8 +51,11 @@ function ProfileInfo() {
                             value={bio}
                             onChange={handleBioChange}
                         />
-                        <button className="save-button" onClick={handleBioSave}>Save</button>
-                        <button className="cancel-button" onClick={handleBioEditToggle}>Cancel</button>
+                        <div className="buttons">
+                          <button className="save-button" onClick={handleBioSave}>Save</button>
+                          <button className="cancel-button" onClick={handleBioEditToggle}>Cancel</button>
+                        </div>
+             
                     </div>
                 ) : (
                     <>
@@ -64,7 +67,6 @@ function ProfileInfo() {
                     </>
                 )}
             </div>
-            <hr />
         </div>
     );
 }

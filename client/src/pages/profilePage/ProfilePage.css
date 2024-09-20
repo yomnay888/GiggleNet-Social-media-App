@@ -1,29 +1,24 @@
 .profile-page {
-    max-width: 800px;
     margin: auto;
     padding: 20px;
 }
 
 .top-section {
     display: flex;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 30px;
 }
 
 .friends-section, .posts-section {
     margin-top: 20px;
-    border-top: 1px solid #ccc;
-    padding-top: 20px;
+    border-top: 1px solid var(--main--color);
+    padding-top: 20px;    
 }
-
-h2 {
-    margin-bottom: 15px;
+.friends-section h2 ,.posts-section h2 {
     font-size: 1.5em;
-}
-
-.friends-section {
-    display: flex;
-    flex-wrap: wrap;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--main--color);
 }
 
 .friends-section .friend {
@@ -33,11 +28,9 @@ h2 {
 
 .posts-section {
     margin-top: 30px;
-}
-
-.post {
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }

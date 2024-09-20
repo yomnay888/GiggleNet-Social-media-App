@@ -2,9 +2,12 @@ import "./ProfilePage.css";
 import ProfilePictureUpload from "../../components/ProfilePictureUpload/ProfilePictureUpload";
 import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
 import Friends from "../../components/friends/Friends";
-import UserPosts from "../../components/userPosts/UserPosts";
+import Feed from "../../components/feed/Feed";
+import { useRef } from "react";
 
 function ProfilePage() {
+    const mainRef = useRef(null);
+    const isUserFeed = true;
     return (
         <div className="profile-page">
             <div className="top-section">
@@ -16,10 +19,9 @@ function ProfilePage() {
                 <h2>Friends</h2>
                 <Friends />
             </div>
-
-            <div className="posts-section">
+            <div ref={mainRef} className="posts-section">
                 <h2>Your Posts</h2>
-                <UserPosts />
+                <Feed mainRef={mainRef} isUserFeed={isUserFeed}/>
             </div>
         </div>
     );

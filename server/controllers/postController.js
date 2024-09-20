@@ -32,14 +32,16 @@ class postController{
                 res.status(400).json({ error: error.message });    
             }
         }
-        static async getAllUserPosts(req,res){
-            const userId = req.userId;
+        static async getlUserPostsByPagination(request,response){
+            const page = +request.query.page  ||1;
+            const limit = +request.query.limit  ||10;
+            const userId = request.userId;
             try{
-                const posts = await postService.getAllUserPosts(userId);
-                res.status(200).json({ posts });
-            }
-            catch(error){
-                res.status(400).json({ error: error.message });
+                const paginationResults = await postService.getlUserPostsByPagination(page, limit, userId);
+                return response.status(200).json(paginationResults);
+            }catch(error){
+                console.error('Error getting user posts:', error);
+                return response.status(422).json({ message: error.message });
             }
         }
         static async getAllPosts(req,res){

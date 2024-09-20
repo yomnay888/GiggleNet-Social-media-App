@@ -23,9 +23,25 @@ class postService{
                 throw new Error('Post not deleted or not found');
             }
     }
-    static async getAllUserPosts(userId){
-        const posts = await Post.getAllUserPosts(userId);
-        return posts;
+    static async getlUserPostsByPagination(page,limit,userId){
+        const skip = (page - 1) * limit; // startIndex
+        const posts = await Post.getlUserPostsByPagination(limit, skip, userId);
+        const totalPostsCount = await Post.getTotalPostsCount();
+        const paginationResults = {
+            posts: posts,
+            totalPostsCount: totalPostsCount,
+        };
+        
+        if(skip > 0) {
+            paginationResults.previousPage = page - 1
+        }
+        
+        const endIndex = page * limit;
+        if (endIndex < totalPostsCount) {
+            paginationResults.nextPage = page + 1
+        }
+            
+        return paginationResults;
     }
   static async getPostsByPagination (page, limit) {
         const skip = (page - 1) * limit; // startIndex

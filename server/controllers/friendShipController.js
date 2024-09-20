@@ -52,7 +52,15 @@ class friendShipController {
         }
     }
     static async getFriends(req, res) {
-        //get friends
+        const userId = req.userId;
+        console.log('user id from get friends',userId);
+        try{
+            const friends = await friendshipService.getFriends(userId);
+            console.log('friends from get friends controller',friends);
+            res.status(200).json({ friends });
+        }   catch(error){
+            res.status(400).json({ error: error.message });
+        }
     }
     static async getFriendshipInfo(req, res) {
         try{

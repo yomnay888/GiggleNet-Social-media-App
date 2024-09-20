@@ -1,6 +1,6 @@
 import PostLike from "./definitions/PostLike.js";
 import Post from "./definitions/Post.js";
-import user from "./definitions/User.js";
+import User from "./definitions/User.js";
 import sequelize from 'sequelize';
 class PostModel {
         static async createPost(content, userId) {
@@ -38,14 +38,33 @@ class PostModel {
             }
             return deletedPost;
         }
-        static async getAllUserPosts(userId) {
+        static async getlUserPostsByPagination(limit, skip, userId) {
+            console.log('inside model ',userId);
+            try {
                 const posts = await Post.findAll({
-                        where: {
-                                userId
+                    include: [
+                        {
+                            model: User, 
+                            attributes: ['name', 'profilePicture'], 
+                            where: {
+                                userId: userId 
+                            }
                         }
+                    ],
+                    limit: limit, 
+                    offset: skip,  // Apply offset for pagination
+                    order: [['createdAt', 'DESC']] // Order by creation date, descending
                 });
-                return posts;
+        
+                console.log('Posts of user:', posts); // Debugging output
+                return posts; // Return the fetched posts
+            } catch (error) {
+                console.error('Error fetching user posts:', error);
+                throw error; // Handle or re-throw the error
+            }
         }
+        
+        
         static async getPostById(postId) {
                 console.log(postId);
                 const post = await Post.findOne({where: {postId: postId}});
@@ -58,8 +77,8 @@ class PostModel {
             include: [
                 // Include the user who created the post
                 {
-                    model: user,
-                    attributes: ['name'] // Fetch all attributes from the User model
+                    model: User,
+                    attributes: ['name','profilePicture'] // Fetch all attributes from the User model
                 }
             ],
             limit,

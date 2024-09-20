@@ -65,7 +65,8 @@ function Header() {
               {results.length > 0 ? (
                 results.map((result, index) => (
                   <div key={index} className="result-item">
-                    <img className='profile-image' src={result.image} alt="profile" />
+                    <img className='profile-image' src=
+                    {`${import.meta.env.VITE_BACKEND_BASE_URL}${result.profilePicture}`} alt="profile" />
                     <span>{result.name}</span>
                   </div>
                 ))

@@ -8,11 +8,15 @@
 .profile-info hr{
     width: 100%;
     margin: 10px 0;
+    border: 1px solid var(--main--color);
 }
 .profile-info .bio p{
     font-size: 20px;
     font-weight: 500;
     color: #65676B;
+    border: 2px var(--main--color);
+    overflow: wrap;
+    max-width: 250px;
 }
 .profile-info h2{
     font-size: 30px;
@@ -25,13 +29,14 @@
     align-items: center;
 }
 
+
 .bio .edit-icon{
     cursor: pointer;
     margin-left: 10px;
-    color: #65676B;
+    color: var(--main--color);
 }
 .bio .edit-icon:hover{
-    color: black;
+    color: var(--main--color-hover);
 }
 .bio button{
     margin-left: 10px;
@@ -60,4 +65,10 @@
 }
 .bio input:focus{
     outline: none;
+}
+.bio-edit{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

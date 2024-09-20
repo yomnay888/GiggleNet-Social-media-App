@@ -50,7 +50,6 @@ class friendshipService {
     static async getFriends(userId){
       const friends = await Friendship.getFriends(userId);
       const jsonFriends = friends.map(friend => friend.toJSON());
-      console.log(jsonFriends);
       return jsonFriends;
     }
     static async getFriendshipInfo(userId, friendId) {

@@ -1,7 +1,8 @@
 .friends-list {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
-    gap: 15px; /* Space between friend cards */
+    gap: 30px; 
 }
 
 .friend-card {
@@ -9,18 +10,29 @@
     border-radius: 8px;
     padding: 10px;
     text-align: center;
-    width: 100px; /* Adjust as needed */
-    transition: box-shadow 0.2s;
+    width: calc(20% - 24px); /* 5 cards per row with gaps */
+    transition: box-shadow 0.2s, transform 0.2s; 
+    overflow: hidden;
+    cursor: pointer;
 }
 
 .friend-card:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+    transform: scale(1.02); /* Slightly scale up */
 }
 
 .friend-pic {
     width: 60px; /* Adjust size */
     height: 60px; /* Maintain aspect ratio */
     border-radius: 50%; /* Circular profile picture */
+}
+
+.friend-name {
+    font-size: 14px; 
+    overflow: hidden;
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+    display: block; /* Ensure it takes full width */
+    margin-top: 5px; /* Space between image and text */
 }
 
 .pagination {
@@ -31,20 +43,42 @@
 }
 
 .pagination button {
-    padding: 5px 10px;
+    padding: 20px 15px;
     border: 1px solid #ccc;
-    border-radius: 10px;
+    border-radius: 50%;
     background-color: white;
     cursor: pointer;
     transition: background-color 0.2s;
+    color:var(--main--color);
 }
 
 .pagination button:hover {
-    background-color: #f0f0f0; /* Light grey on hover */
+    background-color: var(--main--color-hover);
+    color: white;
 }
 
 .pagination button:disabled {
-    background-color: #e0e0e0; /* Grey for disabled button */
-    cursor: not-allowed; /* Change cursor for disabled state */
-    border-color: #aaa; /* Darker border for disabled button */
+    background-color: #e0e0e0; 
+    color:black;
+    cursor: not-allowed;
+    border-color: #aaa;  
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .friend-card {
+        width: calc(33.33% - 20px); /* 3 cards per row */
+    }
+}
+
+@media (max-width: 480px) {
+    .friend-card {
+        width: calc(50% - 20px); /* 2 cards per row */
+    }
+}
+
+@media (max-width: 360px) {
+    .friend-card {
+        width: 100%; /* 1 card per row */
+    }
 }

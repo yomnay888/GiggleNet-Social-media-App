@@ -35,12 +35,11 @@ function Post({post}) {
     
         return seconds < 30 ? 'just now' : `${seconds} seconds ago`;
     }
-
     const timeAgoString = timeAgo(post.createdAt);
     return(
         <div className='post-container'>
             <div className="top-section">
-                <img src={`${import.meta.env.VITE_BACKEND_BASE_URL}uploads/profile-pictures/default-profile-picture.png`} alt="" />
+                <img src={`${import.meta.env.VITE_BACKEND_BASE_URL}${post.user.profilePicture}`}  alt="" />
                 <div className='text-info'>
                     <h3>{user.name}</h3>
                     <p>{timeAgoString}</p>
