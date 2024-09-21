@@ -31,14 +31,24 @@ class userController{
    }
    static async updateBio(request, response){
          try {
-              // Get the bio from the request body
               const { bio } = request.body;
-              console.log("this is the bio",bio);
-              // Update the user's bio
+              if(bio.length > 100){
+                   return response.status(400).json({ message:'Bio must be 100 characters or less'});
+              }
               await userService.updateBio(request.userId, bio);
               return response.status(200).json({ message: 'Bio updated successfully' });
          } catch (error) {
               console.error('Error updating bio:', error);
+              return response.status(500).json({ message: error.message });
+         }
+   }
+   static async getUserById(request, response){
+         try {
+              const {userId}  = request.params;
+              const user = await userService.getUserById(userId);
+              return response.status(200).json(user);
+         } catch (error) {
+              console.error('Error getting user by id:', error);
               return response.status(500).json({ message: error.message });
          }
    }

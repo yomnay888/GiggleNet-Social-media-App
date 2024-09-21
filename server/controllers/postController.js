@@ -32,12 +32,12 @@ class postController{
                 res.status(400).json({ error: error.message });    
             }
         }
-        static async getlUserPostsByPagination(request,response){
+        static async getUserPostsByPagination(request,response){
             const page = +request.query.page  ||1;
             const limit = +request.query.limit  ||10;
-            const userId = request.userId;
+            const userId = +request.params.userId;
             try{
-                const paginationResults = await postService.getlUserPostsByPagination(page, limit, userId);
+                const paginationResults = await postService.getUserPostsByPagination(page, limit, userId);
                 return response.status(200).json(paginationResults);
             }catch(error){
                 console.error('Error getting user posts:', error);

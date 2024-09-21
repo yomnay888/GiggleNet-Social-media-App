@@ -18,7 +18,7 @@ function Feed({ mainRef, isUserFeed }) {
                 setHasMore(false);
         }
         fetchPosts();        
-    }, [page, isUserFeed]); // Depend on isUserFeed
+    }, [page, isUserFeed]); 
 
     // Track the current scroll position
     useEffect(() => {
@@ -32,7 +32,7 @@ function Feed({ mainRef, isUserFeed }) {
         return () => {
             scrollTracker.removeEventListener('scroll', handleScroll);
         };
-    }, [hasMore, mainRef]); // Add mainRef as a dependency
+    }, [hasMore, mainRef]);
 
     return (
         <section className='feed-container'>

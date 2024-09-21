@@ -23,9 +23,9 @@ class postService{
                 throw new Error('Post not deleted or not found');
             }
     }
-    static async getlUserPostsByPagination(page,limit,userId){
-        const skip = (page - 1) * limit; // startIndex
-        const posts = await Post.getlUserPostsByPagination(limit, skip, userId);
+    static async getUserPostsByPagination(page,limit,userId){
+        const skip = (page - 1) * limit; 
+        const posts = await Post.getUserPostsByPagination(limit, skip, userId);
         const totalPostsCount = await Post.getTotalPostsCount();
         const paginationResults = {
             posts: posts,

@@ -67,7 +67,7 @@ class FriendshipModel {
     //     );
     //     return result;
     // }
-    static async getFriends(userId) {
+    static async getFriendsByPagination(limit,skip, userId) {
         const friendships = await Friendship.findAll({
             where: {
                 status: FRIENDSHIP_STATUS.ACCEPTED,
@@ -77,23 +77,31 @@ class FriendshipModel {
                 ]
             }
         });
-     const friendIds = friendships.map(friendship => {
+    
+        const friendIds = friendships.map(friendship => {
             return friendship.userId1 === userId ? friendship.userId2 : friendship.userId1;
         });
     
-        const friends = await User.findAll({
+        const totalPages = Math.ceil(friendIds.length/limit);
+        const paginatedFriends = await User.findAll({
             where: {
                 userId: {
                     [Op.in]: friendIds
                 }
             },
-            attributes: ['userId', 'name', 'profilePicture']
+            attributes: ['userId', 'name', 'profilePicture'],
+            limit: limit,
+            offset:skip
         });
-        return friends;
+    
+        // Return both friends and total count
+        return {
+            friends: paginatedFriends.map(friend => friend.toJSON()),
+            totalPages: totalPages
+        };
     }
     
-     
-
+ 
 }
 
 

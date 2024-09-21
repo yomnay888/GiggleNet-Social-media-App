@@ -47,15 +47,12 @@ class UserModel {
     await user.save();
   }
 
-  static async getUserByUsername(username){
-    const user = await User.findOne({
-      where: {
-        username: username
-      },
+  static async getUserById(userId) {
+    const user = await User.findByPk(userId, {
+        attributes: ['userId', 'name', 'bio', 'profilePicture']
     });
     return user;
-  }  
-
+}
 }
 
 export default UserModel;

@@ -13,7 +13,10 @@ router.delete('/friendship/:friendId/cancel', friendShipController.cancelFriendR
 //unfriend
 router.delete('/friendship/:friendId', friendShipController.unfriend);
 //get friends
-router.get('/friendship', friendShipController.getFriends);
+// router.get('/friendship', friendShipController.getFriendsByPagination);
+
+router.get('/friendship/:userId', friendShipController.getUserFriendsByPagination);
+
 //get friend request Info
 router.get('/friendship/:friendId/Info', friendShipController.getFriendshipInfo);
 export default router;

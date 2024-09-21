@@ -38,7 +38,7 @@ class PostModel {
             }
             return deletedPost;
         }
-        static async getlUserPostsByPagination(limit, skip, userId) {
+        static async getUserPostsByPagination(limit, skip, userId) {
             console.log('inside model ',userId);
             try {
                 const posts = await Post.findAll({
@@ -56,7 +56,6 @@ class PostModel {
                     order: [['createdAt', 'DESC']] // Order by creation date, descending
                 });
         
-                console.log('Posts of user:', posts); // Debugging output
                 return posts; // Return the fetched posts
             } catch (error) {
                 console.error('Error fetching user posts:', error);

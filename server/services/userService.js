@@ -10,6 +10,10 @@ class userService{
   static async updateBio(userId, bio){
        await User.updateBio(userId, bio);
   }
+  static async getUserById(userId){
+       const user = await User.getUserById(userId);
+       return user;
+  }
  
 }
 export default userService;

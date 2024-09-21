@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 30px; 
+    gap: 15px; 
 }
 
 .friend-card {
@@ -10,7 +10,7 @@
     border-radius: 8px;
     padding: 10px;
     text-align: center;
-    width: calc(20% - 24px); /* 5 cards per row with gaps */
+    width: calc(33.33% - 10px); /* 3 cards per row with gaps */
     transition: box-shadow 0.2s, transform 0.2s; 
     overflow: hidden;
     cursor: pointer;
@@ -22,8 +22,8 @@
 }
 
 .friend-pic {
-    width: 60px; /* Adjust size */
-    height: 60px; /* Maintain aspect ratio */
+    width: 65px; /* Adjust size */
+    height: 65px; /* Maintain aspect ratio */
     border-radius: 50%; /* Circular profile picture */
 }
 
@@ -49,7 +49,7 @@
     background-color: white;
     cursor: pointer;
     transition: background-color 0.2s;
-    color:var(--main--color);
+    color: var(--main--color);
 }
 
 .pagination button:hover {
@@ -59,26 +59,7 @@
 
 .pagination button:disabled {
     background-color: #e0e0e0; 
-    color:black;
+    color: black;
     cursor: not-allowed;
     border-color: #aaa;  
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .friend-card {
-        width: calc(33.33% - 20px); /* 3 cards per row */
-    }
-}
-
-@media (max-width: 480px) {
-    .friend-card {
-        width: calc(50% - 20px); /* 2 cards per row */
-    }
-}
-
-@media (max-width: 360px) {
-    .friend-card {
-        width: 100%; /* 1 card per row */
-    }
 }

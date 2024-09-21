@@ -1,57 +1,54 @@
 import { useState, useRef, useEffect } from 'react';
-import "./ProfilePictureUpload.css";
-
+import './ProfilePictureUpload.css';
 const userJson = localStorage.getItem('user');
-const user = JSON.parse(userJson);
-let latestProfilePicture= `${import.meta.env.VITE_BACKEND_BASE_URL}${user.profilePicture}`;
+const currentLoggedUser = JSON.parse(userJson);
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    return parts.length === 2 ? parts.pop().split(';').shift() : null;
+}
 
-function ProfilePictureUpload() {
+function ProfilePictureUpload({ profilePictureUrl, isSameUser }) {
     const [selectedFile, setSelectedFile] = useState(null);
-    const [profilePicture, setProfilePicture] = useState(null);
+    const [profilePicture, setProfilePicture] = useState(`${import.meta.env.VITE_BACKEND_BASE_URL}${profilePictureUrl}`);
     const fileInputRef = useRef(null);
-
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         setSelectedFile(file);
-        // Create a URL for the selected file for immediate preview
         if (file) {
             const fileUrl = URL.createObjectURL(file);
             setProfilePicture(fileUrl);
         }
     };
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
-
+    useEffect(() => {
+        setProfilePicture(`${import.meta.env.VITE_BACKEND_BASE_URL}${profilePictureUrl}`);
+    }, [profilePictureUrl]);
+    
     const handleUpload = async () => {
         if (!selectedFile) return;
 
-        // Create a FormData object
         const formData = new FormData();
         formData.append('profilePicture', selectedFile);
 
         try {
-            // Send the form data with fetch
             const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URL}upload-profile-picture`, {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'Authorization': `Bearer ${getCookie('token')}`
-                }
+                    'Authorization': `Bearer ${getCookie('token')}`,
+                },
             });
+
             const data = await response.json();
             if (response.ok && data.filePath) {
                 const imageUrl = `${import.meta.env.VITE_BACKEND_BASE_URL}${data.filePath}`;
-                latestProfilePicture= imageUrl;
-                setProfilePicture(imageUrl); // Update with the URL returned from the server
-                setSelectedFile(null); // Reset selected file after upload
-                  const userJson = localStorage.getItem('user');
-                  const user = JSON.parse(userJson);
-                  user.profilePicture = data.filePath; 
-                  localStorage.setItem('user', JSON.stringify(user));
-                }
+                setProfilePicture(imageUrl);
+                setSelectedFile(null);                  
+                    const userJson = localStorage.getItem('user');
+                    const user = JSON.parse(userJson);
+                    user.profilePicture = data.filePath;
+                    localStorage.setItem('user', JSON.stringify(user));
+            }
         } catch (error) {
             console.error('Error uploading file:', error);
             alert('Failed to upload profile picture.');
@@ -59,22 +56,17 @@ function ProfilePictureUpload() {
     };
 
     const handleImageClick = () => {
-        fileInputRef.current.click(); // Trigger file input click
+        if (isSameUser) {
+            fileInputRef.current.click(); 
+        }
     };
 
     const handleCancel = () => {
         setSelectedFile(null);
-        setProfilePicture(null);
-        fileInputRef.current.value = ''; // Reset the file input
+        setProfilePicture(`${import.meta.env.VITE_BACKEND_BASE_URL}${currentLoggedUser.profilePicture}`);
+        fileInputRef.current.value = '';
     };
 
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
-
-    // Clean up the object URL when component unmounts or file changes
     useEffect(() => {
         return () => {
             if (profilePicture && profilePicture.startsWith('blob:')) {
@@ -85,22 +77,24 @@ function ProfilePictureUpload() {
 
     return (
         <div className='profilePicture-container'>
-            <input 
-                type="file" 
-                ref={fileInputRef} 
-                style={{ display: 'none' }} 
-                onChange={handleFileChange} 
-            />
+            {isSameUser && (
+                <input 
+                    type="file" 
+                    ref={fileInputRef} 
+                    style={{ display: 'none' }} 
+                    onChange={handleFileChange} 
+                />
+            )}
             <img 
-                src={profilePicture||latestProfilePicture} 
+                src={profilePicture}
                 alt="Profile" 
                 onClick={handleImageClick} 
-                style={{ cursor: 'pointer' }} 
+                style={{ cursor: isSameUser ? 'pointer' : 'default' }} 
             />
-            {selectedFile && (
+            {selectedFile && isSameUser && (
                 <div>
-                    <button className='save-button' onClick={handleUpload}>Save</button>
-                    <button className='cancel-button' onClick={handleCancel}>Cancel</button>
+                    <button className='save-button' onClick={handleUpload}>✔️</button>
+                    <button className='cancel-button' onClick={handleCancel}>❌</button>
                 </div>
             )}
         </div>

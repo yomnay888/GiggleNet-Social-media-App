@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./Header.css";
-import { fetchSearchResults } from '../../services/searchService'; // Adjust path as needed
+import { fetchSearchResults } from '../../services/searchRequests'; // Adjust path as needed
 import { useNavigate } from 'react-router-dom';
 
 function Header() {
@@ -18,6 +18,7 @@ function Header() {
     async function fetchResults() {
       try {
         const { results } = await fetchSearchResults(query);
+        console.log('Results:', results);
         setResults(results);
       } catch (error) {
         console.error('Error fetching search results:', error);
@@ -36,9 +37,10 @@ function Header() {
     setIsFocused(false);
   };
 
-  const handleProfileClick=()=>{
-    navigate('/profile');
-  }
+  const handleProfileClick=(userId)=>{
+    console.log('profile clicked',userId);
+    navigate(`/profile/${userId}`);
+    }
   return (
     <header>
       <div className="left-container">
@@ -64,7 +66,7 @@ function Header() {
             <div className="results">
               {results.length > 0 ? (
                 results.map((result, index) => (
-                  <div key={index} className="result-item">
+                  <div key={index} className="result-item" onClick={()=>handleProfileClick(result.userId)}>
                     <img className='profile-image' src=
                     {`${import.meta.env.VITE_BACKEND_BASE_URL}${result.profilePicture}`} alt="profile" />
                     <span>{result.name}</span>
@@ -79,7 +81,7 @@ function Header() {
       </div>
       <div className="right-container">
         <i className="fa-regular fa-bell notification-icon"></i>
-        <img src={profilePicture} alt="profile-picture" className="profile-picture" onClick={handleProfileClick} />
+        <img src={profilePicture} alt="profile-picture" className="profile-picture" onClick={()=>handleProfileClick( user.userId)} />
       </div>
     </header>
   );

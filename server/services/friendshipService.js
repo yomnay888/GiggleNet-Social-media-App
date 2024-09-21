@@ -47,17 +47,19 @@ class friendshipService {
 
         await Friendship.unfriend(friendship);
     }
-    static async getFriends(userId){
-      const friends = await Friendship.getFriends(userId);
-      const jsonFriends = friends.map(friend => friend.toJSON());
-      return jsonFriends;
+    static async getFriendsByPagination(page,limit,userId){
+      const skip = (page - 1) * limit;
+      const paginationResults = await Friendship.getFriendsByPagination(limit,skip,userId);
+    return paginationResults;  
     }
+
     static async getFriendshipInfo(userId, friendId) {
       const friendship =  await Friendship.getFriendship(userId, friendId);
       if (!friendship) {
           throw new Error('No friendship found');
       }
-      return friendship.toJSON();
+      return friendship;
+ 
     }
 }
 export default friendshipService;

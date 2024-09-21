@@ -55,7 +55,8 @@ class AuthService {
             username: user.username,
             email: user.email,
             bio: user.bio,
-            profilePicture: user.profilePicture
+            profilePicture: user.profilePicture,
+            userId: user.userId
         }
     }
     return loginData; 

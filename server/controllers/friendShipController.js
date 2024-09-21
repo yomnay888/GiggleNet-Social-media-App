@@ -51,13 +51,24 @@ class friendShipController {
             res.status(400).json({ error: error.message });
         }
     }
-    static async getFriends(req, res) {
-        const userId = req.userId;
-        console.log('user id from get friends',userId);
+    static async getUserFriendsByPagination(req,res){
+        const userId = +req.params.userId;
+        const page = +req.query.page ||1;
+        const limit = +req.query.limit||9;
         try{
-            const friends = await friendshipService.getFriends(userId);
-            console.log('friends from get friends controller',friends);
-            res.status(200).json({ friends });
+            const paginationResults = await friendshipService.getFriendsByPagination(page,limit,userId);
+            res.status(200).json({ paginationResults });
+        }   catch(error){
+            res.status(400).json({ error: error.message });
+        }
+    }
+    static async getFriendsByPagination(req, res) {
+        const userId = req.userId;
+        const page = +req.query.page;
+        const limit = +req.query.limit;
+        try{
+            const paginationResults = await friendshipService.getFriendsByPagination(page,limit,userId);
+            res.status(200).json({ paginationResults });
         }   catch(error){
             res.status(400).json({ error: error.message });
         }

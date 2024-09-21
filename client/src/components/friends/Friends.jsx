@@ -1,51 +1,53 @@
 import './Friends.css';
 import { useState, useEffect } from 'react';
-import { fetchGetFriends } from '../../services/getFriends';
-
-const Friends = () => {
+import { getFriendsByPagination } from '../../services/friendsRequests';
+import { useNavigate } from 'react-router-dom';
+const limit=9;
+const Friends = ({userId}) => {
     const [friends, setFriends] = useState([]);
     const [error, setError] = useState(null);
-    const [currentPage, setCurrentPage] = useState(0);
-    const friendsPerPage = 4;
-
-    // Fetch friends when the component mounts
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const navigate = useNavigate();
     useEffect(() => {
-        getFriends();
-    }, []); // Empty dependency array means this runs once when the component mounts
+        getFriends(currentPage);
+    }, [currentPage,userId]);
 
-    // Function to fetch friends
-    const getFriends = async () => {
+    const getFriends = async (page) => {
         try {
-            const data = await fetchGetFriends();
-            setFriends(data.friends); // Assuming data is the array of friends
-            setError(null); // Reset error state
+            const {paginationResults} = await getFriendsByPagination(page, limit,userId);
+            console.log(paginationResults);
+            setFriends(paginationResults.friends); 
+            setTotalPages(paginationResults.totalPages);
+            setError(null); 
         } catch (error) {
             setError('Failed to fetch friends. Please try again later.');
         }
     };
 
     const handleNext = () => {
-        if ((currentPage + 1) * friendsPerPage < friends.length) {
+        if (currentPage < totalPages) {
             setCurrentPage(currentPage + 1);
         }
     };
 
     const handlePrev = () => {
-        if (currentPage > 0) {
+        if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
         }
     };
-
-    const startIndex = currentPage * friendsPerPage;
-    const selectedFriends = friends.slice(startIndex, startIndex + friendsPerPage);
+    const handleFriendClick = (userId) => {
+        navigate(`/profile/${userId}`);
+    }
 
     return (
         <div>
             <div className="friends-list">
-                {selectedFriends.map(friend => (
-                    <div key={friend.userId} className="friend-card">
-                        <img  className="friend-pic"
-                       src={`${import.meta.env.VITE_BACKEND_BASE_URL}${friend.profilePicture}`}                             className="friend-pic" 
+                {friends.map(friend => (
+                    <div key={friend.userId} className="friend-card" onClick={()=>handleFriendClick(friend.userId)}>
+                        <img 
+                            className="friend-pic"
+                            src={`${import.meta.env.VITE_BACKEND_BASE_URL}${friend.profilePicture}`} 
                         />
                         <p className='friend-name'>{friend.name}</p>
                     </div>
@@ -53,8 +55,8 @@ const Friends = () => {
             </div>
             {error && <p className="error">{error}</p>}
             <div className="pagination">
-                <button onClick={handlePrev} disabled={currentPage === 0}>Prev</button>
-                <button onClick={handleNext} disabled={(currentPage + 1) * friendsPerPage >= friends.length}>Next</button>
+                <button onClick={handlePrev} disabled={currentPage === 1}>Prev</button>
+                <button onClick={handleNext} disabled={currentPage >= totalPages}>Next</button>
             </div>
         </div>
     );

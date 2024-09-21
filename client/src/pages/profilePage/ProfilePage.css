@@ -3,34 +3,60 @@
     padding: 20px;
 }
 
-.top-section {
+.profile-page > .top-section {
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
 }
 
-.friends-section, .posts-section {
-    margin-top: 20px;
-    border-top: 1px solid var(--main--color);
-    padding-top: 20px;    
+.name {
+    font-size: 1.5em;
+    font-weight: 600;
+    margin: 15px;
 }
-.friends-section h2 ,.posts-section h2 {
+.friends-section h2 ,.bio-section h2 , .posts-section h2{
     font-size: 1.5em;
     text-align: center;
     margin-bottom: 20px;
     color: var(--main--color);
-}
-
-.friends-section .friend {
-    margin: 10px;
-    text-align: center;
+    border-bottom: 1px solid var(--main--color);
 }
 
 .posts-section {
-    margin-top: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: 55%;
+}
+.side-section{
+    display: flex;
+    flex-direction: column;
+    width:40%;
+}
+.bottom-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.bio-section , .friends-section{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+@media (max-width: 1000px) {
+  
+    .bottom-section {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .side-section{
+        width:100%;
+    }
+    .posts-section {
+        width: 100%;
+    }
 }
