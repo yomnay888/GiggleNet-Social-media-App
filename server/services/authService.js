@@ -10,9 +10,9 @@ class AuthService {
            if( await User.getUserByEmail(email)){
             throw new Error('User with this Email already exists');
            }
-           if(await User.getUserByUsername(username)) {
-            throw new Error('User with this username already exists');
-            }
+          //  if(await User.getUserByUsername(username)) {
+          //   throw new Error('User with this username already exists');
+          //   }
       const newUser = await User.addUser(username,name, email, hashedPassword);
          return newUser;
     } catch (error){

@@ -1,0 +1,64 @@
+.friendship-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.friendship-status {
+    display: flex;
+    align-items: center;
+}
+
+button {
+    background-color: var(--main--color); 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 10px 10px; 
+}
+
+button:hover {
+    background-color: var(--main--color-hover); 
+    transform: translateY(-2px); 
+}
+
+.dropdown-box {
+    position: relative;
+    display: inline-block;
+}
+
+.unfriend-dropdown {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc; 
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    z-index: 1;
+    right: -80px; 
+    top: -25px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.unfriend-dropdown button {
+    background-color: transparent; 
+    color: #d9534f; 
+    border: none; 
+    text-align: center;
+    width: 100%; 
+    padding: 1px;
+    transition: background-color 0.2s; 
+}
+
+.unfriend-dropdown:hover {
+    background-color:rgb(230, 91, 91); 
+}
+.unfriend-dropdown:hover button {
+    color: white;
+}

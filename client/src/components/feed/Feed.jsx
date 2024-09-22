@@ -3,23 +3,28 @@ import './Feed.css';
 import Post from '../post/Post';
 import { getPostsByPagination } from '../../services/postRequests';
 
-function Feed({ mainRef, isUserFeed }) {
+function Feed({ mainRef, isUserFeed,isSameUser, userId }) {
+    //isSameUser can be used to show if he can edit or delete the post
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
-
     useEffect(() => {
-        async function fetchPosts() {
-            const postsData = await getPostsByPagination(page, 5, isUserFeed);
-            console.log('posts dataa',postsData);
-            const { posts, nextPage } = postsData;
-            setPosts(prevPosts => [...prevPosts, ...posts]);
-            if (!nextPage) 
-                setHasMore(false);
-        }
+        setPosts([]);
+        setPage(1);
+        setHasMore(true);
+    }, [userId]);
+    useEffect(() => {
         fetchPosts();        
-    }, [page, isUserFeed]); 
+    }, [page,userId]); 
 
+
+    async function fetchPosts() {
+        const postsData = await getPostsByPagination(page, 5, userId,isUserFeed);
+        const { posts, nextPage } = postsData;
+        setPosts(prevPosts => [...prevPosts, ...posts]);
+        if (!nextPage) 
+            setHasMore(false);
+    }
     // Track the current scroll position
     useEffect(() => {
         const scrollTracker = mainRef.current;

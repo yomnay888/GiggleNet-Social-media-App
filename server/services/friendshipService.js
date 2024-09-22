@@ -10,7 +10,12 @@ class friendshipService {
   const smallerId = Math.min(userId, friendId);
   const largerId = Math.max(userId, friendId);
 
-  await Friendship.sendFriendRequest(smallerId, largerId, initiatorId);
+  const friendship=await Friendship.sendFriendRequest(smallerId, largerId, initiatorId);
+  const friendshipInfo = {
+    status: friendship.status,
+    initiatorId: friendship.initiatorId
+  }
+return friendshipInfo;
   }
 
     static async acceptFriendRequest(userId, friendId) {
@@ -19,12 +24,15 @@ class friendshipService {
         const friendship = await Friendship.getFriendship(smallerId, largerId);
         if(!friendship || friendship.status !== FRIENDSHIP_STATUS.PENDING) 
             throw new Error('No friend request to accept');
-
         if(userId === friendship.initiatorId) {
             throw new Error('Invalid Action. Cannot accept your own friend request');
         }
-
-        await Friendship.acceptFriendRequest(friendship);
+       await Friendship.acceptFriendRequest(friendship);
+       const friendshipInfo = {
+        status: FRIENDSHIP_STATUS.ACCEPTED,
+        initiatorId: friendship.initiatorId
+       };
+    return friendshipInfo;
     }
 
   static async cancelFriendRequest(userId, friendId) {
@@ -36,6 +44,7 @@ class friendshipService {
         throw new Error('No friend request to cancel');
 
     await Friendship.cancelFriendRequest(friendship);
+    return {};
   }
 
     static async unfriend(userId, friendId) {
@@ -46,6 +55,7 @@ class friendshipService {
             throw new Error('Invalid unfriend operation');
 
         await Friendship.unfriend(friendship);
+        return {};
     }
     static async getFriendsByPagination(page,limit,userId){
       const skip = (page - 1) * limit;
@@ -54,11 +64,20 @@ class friendshipService {
     }
 
     static async getFriendshipInfo(userId, friendId) {
-      const friendship =  await Friendship.getFriendship(userId, friendId);
+      const smallerId = Math.min(userId, friendId);
+      const largerId = Math.max(userId, friendId);
+      const friendship =  await Friendship.getFriendship(smallerId, largerId);
+      if (!friendship) {
+          return {};
+      }
+      const friendshipInfo = {
+          status: friendship.status,
+          initiatorId: friendship.initiatorId,
+      };
       if (!friendship) {
           throw new Error('No friendship found');
       }
-      return friendship;
+      return friendshipInfo;
  
     }
 }

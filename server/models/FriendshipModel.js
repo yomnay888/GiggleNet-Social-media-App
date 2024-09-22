@@ -26,18 +26,17 @@ class FriendshipModel {
                 throw new Error('You are already friends');
             }
         }
+        return friendship;
 
     }
 
     static async getFriendship(smallerId, largerId) {
-
         const friendship = await Friendship.findOne({
             where: {
                 userId1: smallerId,
                 userId2: largerId
             }
         });
-
         return friendship;
     }
 
@@ -54,7 +53,6 @@ class FriendshipModel {
 
     static async cancelFriendRequest(friendship) {
         const affectedRows = await friendship.destroy();
-        
         if(!affectedRows) {
             throw new Error('Unfriend operation failed');
         }

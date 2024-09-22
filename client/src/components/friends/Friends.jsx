@@ -16,7 +16,6 @@ const Friends = ({userId}) => {
     const getFriends = async (page) => {
         try {
             const {paginationResults} = await getFriendsByPagination(page, limit,userId);
-            console.log(paginationResults);
             setFriends(paginationResults.friends); 
             setTotalPages(paginationResults.totalPages);
             setError(null); 

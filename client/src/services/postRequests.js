@@ -1,19 +1,20 @@
+import { useTransition } from "react";
+
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-export const getPostsByPagination = async (page, limit, isUserFeed) => {
+export const getPostsByPagination = async (page, limit, userId,isUserFeed) => {
     const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
-    let url;
-
-    if (isUserFeed) {
-        url = `${baseUrl}user-posts?page=${page}&limit=${limit}`;
-    } else {
-        url = `${baseUrl}posts?page=${page}&limit=${limit}`;
+    let url 
+    if(isUserFeed){
+        url= `${baseUrl}posts?page=${page}&limit=${limit}`;
     }
-
+    else{
+         url= `${baseUrl}user-posts/${userId}?page=${page}&limit=${limit}`;
+        }
     const response = await fetch(url, {
         method: 'GET',
         headers: {

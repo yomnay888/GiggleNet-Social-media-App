@@ -31,14 +31,13 @@ function Header() {
   const handleFocus = () => setIsFocused(true);
 
   const clearSearch = () => {
-    console.log('clear search');
-    setQuery('');
-    setResults([]);
-    setIsFocused(false);
+    // console.log('clear search');
+    // setQuery('');
+    // setResults([]);
+    // setIsFocused(false);
   };
 
   const handleProfileClick=(userId)=>{
-    console.log('profile clicked',userId);
     navigate(`/profile/${userId}`);
     }
   return (
@@ -46,7 +45,7 @@ function Header() {
       <div className="left-container">
         <img src="./logo.png" alt="logo" className="logo" />
         <i className="fa-solid fa-magnifying-glass search-icon"></i>
-        <div className="search-box">
+        <div className="search-box" onBlur={clearSearch}>
           <input
             className="search-bar"
             type="text"
@@ -54,7 +53,6 @@ function Header() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={handleFocus}
-            onBlur={clearSearch}
           />
           {isFocused && (
             <i
@@ -66,7 +64,7 @@ function Header() {
             <div className="results">
               {results.length > 0 ? (
                 results.map((result, index) => (
-                  <div key={index} className="result-item" onClick={()=>handleProfileClick(result.userId)}>
+                  <div key={index} className="result-item" onClick={()=> handleProfileClick(result.userId)}>
                     <img className='profile-image' src=
                     {`${import.meta.env.VITE_BACKEND_BASE_URL}${result.profilePicture}`} alt="profile" />
                     <span>{result.name}</span>

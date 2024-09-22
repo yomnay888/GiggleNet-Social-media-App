@@ -5,8 +5,8 @@ class friendShipController {
         try{
             const userId = req.userId; 
             const friendId = +req.params.friendId;
-            const newFriendshipRequest = await friendshipService.sendFriendRequest(userId, friendId);
-            res.status(201).json({ message: 'Friend request sent successfully', friendship: newFriendshipRequest });
+            const friendshipInfo = await friendshipService.sendFriendRequest(userId, friendId);
+            res.status(201).json({friendshipInfo});
         }catch(error){
             res.status(400).json({ error: error.message });
         }
@@ -15,8 +15,8 @@ class friendShipController {
         try{
             const userId = req.userId; 
             const friendId =+ req.params.friendId;
-            const acceptedFriendshipRequest = await friendshipService.acceptFriendRequest(userId, friendId);
-            res.status(201).json({ message: 'Friend request accepted successfully', friendship: acceptedFriendshipRequest });
+            const friendshipInfo = await friendshipService.acceptFriendRequest(userId, friendId);
+            res.status(201).json({ friendshipInfo });
         }catch(error){
             res.status(400).json({ error: error.message });
         }
@@ -25,8 +25,8 @@ class friendShipController {
         try{
             const userId = req.userId; 
             const friendId = +req.params.friendId;
-            const cancelledFriendshipRequest = await friendshipService.cancelFriendRequest(userId, friendId);
-            res.status(201).json({ message: 'Friend request cancelled successfully', friendship: cancelledFriendshipRequest });
+            const friendshipInfo = await friendshipService.cancelFriendRequest(userId, friendId);
+            res.status(201).json({friendshipInfo });
         }catch(error){
             res.status(400).json({ error: error.message });
         }
@@ -45,8 +45,8 @@ class friendShipController {
         try{
             const userId = req.userId; 
             const friendId = +req.params.friendId;
-            const unfriended = await friendshipService.unfriend(userId, friendId);
-            res.status(201).json({ message: 'Friend removed successfully', friendship: unfriended });
+            const friendshipInfo = await friendshipService.unfriend(userId, friendId);
+            res.status(201).json({friendshipInfo });
         }catch(error){
             res.status(400).json({ error: error.message });
         }
@@ -78,7 +78,7 @@ class friendShipController {
             const userId = req.userId;
             const friendId = +req.params.friendId;
             const friendshipInfo = await friendshipService.getFriendshipInfo(userId, friendId);
-            res.status(200).json({ friendship: friendshipInfo });
+            res.status(200).json(friendshipInfo );
         }catch(error){
             res.status(400).json({ error: error.message });
         }
