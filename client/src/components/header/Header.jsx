@@ -7,9 +7,11 @@ function Header() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // New state for dropdown
   const userJson = localStorage.getItem('user');
   const user = JSON.parse(userJson);
   const profilePicture= `${import.meta.env.VITE_BACKEND_BASE_URL}${user.profilePicture}`;
+  // console.log('User:', user);
   useEffect(() => {
     if (!query) {
       setResults([]);
@@ -40,10 +42,15 @@ function Header() {
   const handleProfileClick=(userId)=>{
     navigate(`/profile/${userId}`);
     }
+
+    const toggleDropdown = () => {
+      setIsDropdownOpen(!isDropdownOpen);
+    };
+
   return (
     <header>
       <div className="left-container">
-        <img src="./logo.png" alt="logo" className="logo" />
+        <img src="./m.jpg" alt="logo" className="logo" />
         <i className="fa-solid fa-magnifying-glass search-icon"></i>
         <div className="search-box" onBlur={clearSearch}>
           <input
@@ -79,7 +86,23 @@ function Header() {
       </div>
       <div className="right-container">
         <i className="fa-regular fa-bell notification-icon"></i>
-        <img src={profilePicture} alt="profile-picture" className="profile-picture" onClick={()=>handleProfileClick( user.userId)} />
+        <div className="profile-dropdown">
+          <img
+            src={profilePicture}
+            alt="profile-picture"
+            className="profile-picture"
+            onClick={toggleDropdown}
+          />
+          {isDropdownOpen && (
+            <ul className="dropdown-menu"> 
+              <li className='profile' onClick={() =>handleProfileClick(user.userId)} ><img src={profilePicture} alt="profile-picture" className="profile-picture"/> {user.name}</li>
+              <li><i className="fa-solid fa-gear"></i> Settings <i className="fa-solid fa-angle-right right-icon"></i></li>
+              {/* <i className="fa-solid fa-toggle-on"></i> */} {/*when dark mode is on */}
+              <li><i className="fa-solid fa-moon"></i> Dark Mode <i className="fa-solid fa-toggle-off right-icon"></i></li>
+              <li><i className="fa-solid fa-arrow-right-from-bracket"></i> Log Out</li>
+            </ul>
+          )}
+        </div>
       </div>
     </header>
   );

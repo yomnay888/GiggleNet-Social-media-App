@@ -1,7 +1,17 @@
 .login-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     height: 100vh;
-    background-image: linear-gradient(-45deg, var(--main--color), var(--main--color-hover));
+    background-color: var(--main--color);
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+  
  } 
+ /* .login-image{
+    border-radius:15px;
+    width: 50%;
+    height:80%;
+
+ } */
