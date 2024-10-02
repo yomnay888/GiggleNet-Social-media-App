@@ -21,6 +21,10 @@ const Post = sequelize.define('post', {
         type: DataTypes.INTEGER,
         defaultValue: 0,
         allowNull: false
+    },
+    mediaFiles: {
+        type: DataTypes.JSON,
+        allowNull: true
     }
 });
 

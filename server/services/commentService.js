@@ -1,11 +1,11 @@
 import Comment from '../models/CommentModel.js';
 class commentService{
-    static async createComment(postId,userId,content) {
+    static async createComment(postId, userId, content) {
         const comment = await Comment.createComment(postId,userId,content);
         if (comment === null) {
             throw new Error('comment not created');
         }
-        return comment.toJSON();
+        return comment;
     }
     static async updateComment(commentId,postId,userId ,content){
         const comment = await Comment.updateComment(commentId,postId,userId ,content);
@@ -21,10 +21,10 @@ class commentService{
             throw new Error('comment not deleted, either comment id is invalid or you are not the owner');
     }
 }
-static async getCommentsByPagination(page, limit, postId) {
+static async getCommentsByPagination(page, limit, postId, userId) {
     const skip = (page - 1) * limit; // startIndex
     
-    const comments = await Comment.getCommentsByPagination(limit, skip, postId);
+    const comments = await Comment.getCommentsByPagination(limit, skip, postId, userId);
     const totalCommentsCount = await Comment.getTotalCommentsCount(postId);
     
     const paginationResults = {

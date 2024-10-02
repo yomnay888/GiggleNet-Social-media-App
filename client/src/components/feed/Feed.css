@@ -1,5 +1,28 @@
 
 .feed-container {
-    width: 60%;
+    width: 37%;
     /* background-color: #0066ff; */
+}
+
+.post-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(211, 211, 211, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.post-overlay .post-with-comments-container {
+    width: 50%;
+    max-height: 90vh;
+    background-color: white;
+    border-radius: 10px;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }

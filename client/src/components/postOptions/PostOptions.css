@@ -1,0 +1,43 @@
+
+.post-container .top-section .options-container {
+
+    background-color: white;
+    position: absolute;
+    padding: 5px;
+    right: 7px;
+    top: 36px;
+    width: 200px;
+    border-radius: 4px 0 4px 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+.post-container .top-section .options-container .caret-icon {
+    position: absolute;
+    top: -16px; /* Adjust this to match the container */
+    right: 0px; /* Positioning to align with the container */
+    font-size: 30px; /* Adjust size */
+    color: white; /* Match the background color of your container */
+    /* text-shadow: 0 0 10px rgba(0, 0, 0, 0.2); Add shadow to the icon */
+    text-shadow: 4px -5px 10px rgba(0, 0, 0, 0.1), -4px -5px 10px rgba(0, 0, 0, 0.1);
+    
+}
+
+.post-container .top-section .options-container .option {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    color: var(--main--gray--color--post);
+    font-size: 14px;
+    font-weight: 500;   
+    transition: background-color 0.2s;
+}
+
+.post-container .top-section .options-container .option:hover {
+    background-color: var(--main--gray--color--post--hover);
+    cursor: pointer;
+}
+
+.post-container .top-section .options-container .option i {
+    margin-right: 10px;
+}

@@ -1,9 +1,8 @@
 import multer from 'multer';
 import path from 'path';
 import { 
-    PROFILE_PIC_SIZE_LIMIT, 
-    POST_PHOTO_SIZE_LIMIT, 
-    POST_VIDEO_SIZE_LIMIT 
+    PROFILE_PICTURE_SIZE_LIMIT, 
+    POST_MEDIA_SIZE_LIMIT
 } from '../constants/mediaUploadLimits.js';
 
 function uniqueFileName(originalname) {
@@ -12,7 +11,7 @@ function uniqueFileName(originalname) {
 }
 
 // Storage configuration for profile pictures
-const profilePicStorage = multer.diskStorage({
+const profilePictureStorage = multer.diskStorage({
     destination: (request, file, cb) => {
         cb(null, 'uploads/profile-pictures/');
     },
@@ -21,43 +20,40 @@ const profilePicStorage = multer.diskStorage({
     }
 });
 
-// Storage configuration for post photos
-const postPhotoStorage = multer.diskStorage({
+const postMediaStorage = multer.diskStorage({
     destination: (request, file, cb) => {
-        cb(null, 'uploads/post-photos/');
+        cb(null, 'uploads/posts-media/');
     },
     filename: (request, file, cb) => {
         cb(null, uniqueFileName(file.originalname));
     }
 });
 
-// Storage configuration for post videos
-const postVideoStorage = multer.diskStorage({
-    destination: (request, file, cb) => {
-        cb(null, 'uploads/post-videos/');
-    },
-    filename: (request, file, cb) => {
-        cb(null, uniqueFileName(file.originalname));
+
+const fileFilter = (req, file, cb) => {
+    // Define allowed file types
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'video/mp4', 'video/webm', 'video/mov', 'video/avi',  'video/mkv'];
+    
+    if (allowedTypes.includes(file.mimetype)) {
+        cb(null, true); // Accept file
+    } else {
+        cb(new Error('Invalid file type. Only images and videos are allowed.'), false); // Reject file
     }
-});
+};
 
 // Middleware for uploading profile pictures
 const uploadProfilePicture = multer({
-    storage: profilePicStorage,
-    limits: { fileSize: PROFILE_PIC_SIZE_LIMIT }  // Set size limit
-});
-
-// Middleware for uploading post photos
-const uploadPostPhoto = multer({
-    storage: postPhotoStorage,
-    limits: { fileSize: POST_PHOTO_SIZE_LIMIT }  // Set size limit
+    storage: profilePictureStorage,
+    fileFilter: fileFilter,
+    limits: { fileSize: PROFILE_PICTURE_SIZE_LIMIT }  // Set size limit
 });
 
 
-// Middleware for uploading post videos
-const uploadPostVideo = multer({
-    storage: postVideoStorage,
-    limits: { fileSize: POST_VIDEO_SIZE_LIMIT }  // Set size limit
+const uploadPostMedia = multer({
+    storage: postMediaStorage,
+    fileFilter: fileFilter,
+    limits: { fileSize: POST_MEDIA_SIZE_LIMIT}  // Set size limit
 });
 
-export { uploadProfilePicture, uploadPostPhoto, uploadPostVideo };
+
+export { uploadProfilePicture, uploadPostMedia };

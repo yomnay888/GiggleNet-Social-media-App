@@ -24,12 +24,12 @@ export const login = async (email, password) => {
 
 export const signup = async (firstName, lastName, email, password) => {
     const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
-    const response = await fetch(`${baseUrl}/auth/signup`, {
+    const response = await fetch(`${baseUrl}auth/signup`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ firstName, lastName, email, password, username: "username4" })
+        body: JSON.stringify({  username: "username4",firstName, lastName, email, password })
     });
 
     if(!response.ok) {

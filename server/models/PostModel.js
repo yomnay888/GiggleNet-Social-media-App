@@ -3,31 +3,42 @@ import Post from "./definitions/Post.js";
 import User from "./definitions/User.js";
 import sequelize from 'sequelize';
 class PostModel {
-        static async createPost(content, userId) {
+    static async createPost(postContent, mediaFiles, userId) {
         const post = await Post.create({
-                content,
-                userId,
+            content: postContent,
+            userId: userId,
+            mediaFiles: mediaFiles.length === 0 ? null : mediaFiles
         });
+
         if (!post) {
-                throw new Error('Post not created');
-            }
-        return post;
+            throw new Error('Post not created');
         }
 
-        static async updatePost(content, postId, userId) {
-                const updatedPost = await Post.update({      
-                        content
-                 }, {where : {
-                        postId:postId, 
-                        userId:userId
-                }
+        const user = await post.getUser({
+            attributes: ['name', 'userId', 'profilePicture']
         });
-        if (!updatedPost) {
-                throw new Error('Post not updated, invalid credentials');
-            }
-        return updatedPost;
-                }
 
+        post.dataValues.user = user;
+
+
+        return post;
+    }
+    static async updatePost(postContent, postId, mediaFiles, userId) {
+        const result = await Post.update({
+            content: postContent,
+            mediaFiles: mediaFiles.length === 0 ? null : mediaFiles
+        }, {
+            where: {
+                postId: postId,
+                userId: userId
+            },
+        });
+
+        if (!result) {
+            throw new Error('Post not updated, invalid credentials');
+        }
+        
+    }
         static async deletePost(postId, userId) {
                 const deletedPost = await Post.destroy({ where: { 
                         postId, userId 
@@ -39,7 +50,6 @@ class PostModel {
             return deletedPost;
         }
         static async getUserPostsByPagination(limit, skip, userId) {
-            console.log('inside model ',userId);
             try {
                 const posts = await Post.findAll({
                     include: [
@@ -62,31 +72,52 @@ class PostModel {
                 throw error; // Handle or re-throw the error
             }
         }
-        
-        
         static async getPostById(postId) {
-                console.log(postId);
-                const post = await Post.findOne({where: {postId: postId}});
-                return post;
+            const post = await Post.findByPk(postId,{
+                include: [
+                    {
+                        model: User,
+                        attributes: ['name', 'userId', 'profilePicture']
+                    }
+                ]
+            });
+            if (!post) {
+                throw new Error('Post Not Found');
+            }
+    
+    
+            return post;
         }
+        static async getPostsByPagination(userId, limit, skip) {
 
-       // Get paginated posts, no need to count likers dynamically anymore
-       static async getPostsByPagination(limit, skip) {
-        const posts = await Post.findAll({
-            include: [
-                // Include the user who created the post
-                {
-                    model: User,
-                    attributes: ['name','profilePicture'] // Fetch all attributes from the User model
-                }
-            ],
-            limit,
-            offset: skip,
-            order: [['createdAt', 'DESC']] // Sort by most recent posts
-        });
-        return posts;
-    }
-                        // Count the likers
+            const posts = await Post.findAll({
+                include: [  
+                    {
+                        model: User,
+                        attributes: ['name', 'userId']
+                    },
+                ],
+                limit,
+                offset: skip,
+                order: [['createdAt', 'DESC']],
+            });
+    
+            // get the Ids of the liked posts by the user from this small set of posts
+            const likedPostsIds = await PostLike.findAll({
+                where: {
+                    postId: posts.map(post => post.postId),
+                    userId: userId
+                },
+                attributes: ['postId']
+            }); 
+    
+            // Add the isLiked field to each post
+            posts.forEach(post => {
+                post.dataValues.isLiked = likedPostsIds.some(likedPost => likedPost.postId === post.postId);
+            });        
+    
+            return posts;
+        }
             static async getTotalPostsCount() {
                 const totalPostsCount = await Post.count();
                 return totalPostsCount;

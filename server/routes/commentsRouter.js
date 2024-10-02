@@ -1,16 +1,16 @@
 import { Router } from "express";
 import commentController from '../controllers/commentController.js';
-import { paginationValidation } from '../middlewares/paginationValidation.js';
-// import CommentModel from '../models/commentModel.js';
-// import { paginationValidation } from '../middlewares/paginationValidation.js';  
+import { paginationValidation } from '../middlewares/paginationValidation.js';  
 
 const router = Router();
 
 // get comments by pagination
-// router.get('/posts/:id/comments', paginationValidation, pagination(CommentModel), commentController.getPostComments);
+router.get('/posts/:postId/comments', paginationValidation, commentController.getCommentsByPagination);
+
 
 // get all comments for a post (Change Or it)
 // router.get('/posts/:postId/comments', commentController.getAllPostComments);
+
 
 // create a new comment
 router.post('/posts/:postId/comments', commentController.createComment);
@@ -21,8 +21,7 @@ router.patch('/posts/:postId/comments/:commentId', commentController.updateComme
 // delete a comment with comment id
 router.delete('/posts/:postId/comments/:commentId', commentController.deleteComment);
 
-// get comments by pagination
-router.get('/posts/:postId/comments', paginationValidation, commentController.getCommentsByPagination);
+
 
 // like a comment with comment id
 router.post('/comments/:commentId/like', commentController.likeComment);

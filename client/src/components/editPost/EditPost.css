@@ -1,0 +1,206 @@
+.edit-post-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+
+/* The main edit section container */
+.edit-section {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    max-width: 90%;
+    z-index: 1001;
+}
+
+
+
+/* Fixed height class when multiple media files */
+.edit-section--const-height {
+    height: 600px; /* Adjust if needed */
+}
+
+.edit-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-bottom: 1px solid rgb(192, 192, 192);
+}
+
+.edit-title i {
+    position: absolute;
+    font-size: 16px;
+    padding: 7px;
+    background-color: #f2f2f2;
+    border-radius: 50%;
+    right: 0;
+    top: -5px;
+    cursor: pointer;
+}
+
+/* Upper section with profile image, textarea, and buttons */
+.edit-upper-section {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.edit-upper-section img {
+    width: 40px;
+    height: 40px;
+    margin-top: 2px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.edit-text-and-options {
+    margin-left: 7px;
+    flex: 1;
+}
+
+.edit-text-and-options textarea {
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    padding: 5px 15px;
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    resize: none;
+    background-color: var(--main--gray--color--post--hover);
+    font-size: 15px;
+}
+
+.edit-text-and-options textarea:focus {
+    outline: none;
+}
+
+/* Options (buttons and upload label) */
+.edit-options {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.edit-options button, 
+.edit-options .edit-custom-file-upload {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.edit-options .edit-custom-file-upload {
+    background-color: var(--main--gray--color--post--hover);
+    color: var(--main--gray--color--post);
+}
+
+/* Disabled and active buttons */
+.edit-disabled {
+    pointer-events: none;
+    background-color: var(--main--gray--color--post--hover);
+    color: var(--main--gray--color--post);
+}
+
+.edit-active {
+    background-color: var(--main--blue--color);
+    color: white;
+}
+
+/* Media files section */
+.edit-media-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%; 
+}
+
+.edit-media-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    margin: 0;
+}
+
+.edit-media-container .edit-media-content img, 
+.edit-media-container .edit-media-content video {
+    max-width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.2s ease-out;
+    position: relative;
+}
+
+.edit-media-content img:hover, 
+.edit-media-content video:hover {
+    transform: scale(1.01);
+}
+
+/* Delete icon */
+.edit-delete-icon {
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 1%;
+    right: 0;
+    cursor: pointer;
+    color: var(--main--gray--color--post);
+    background-color: white;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+    font-weight: bolder;
+    font-size: 15px;
+    padding: 7px;
+}
+
+.edit-delete-icon:hover {
+    background-color: var(--main--gray--color--post--hover);
+}
+
+/* Media control arrows */
+.edit-media-control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #e0e0e0;
+    color: var(--main--gray--color--post);
+    padding: 10px 20px;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: auto;
+}
+
+.edit-left-arrow, 
+.edit-right-arrow {
+    cursor: pointer;
+}

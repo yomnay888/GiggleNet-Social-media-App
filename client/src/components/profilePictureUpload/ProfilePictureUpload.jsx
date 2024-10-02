@@ -1,7 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 import './ProfilePictureUpload.css';
-const userJson = localStorage.getItem('user');
-const currentLoggedUser = JSON.parse(userJson);
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -9,6 +7,8 @@ function getCookie(name) {
 }
 
 function ProfilePictureUpload({ profilePictureUrl, isSameUser }) {
+    const userJson = localStorage.getItem('user');
+    const currentLoggedUser = JSON.parse(userJson);
     const [selectedFile, setSelectedFile] = useState(null);
     const [profilePicture, setProfilePicture] = useState(`${import.meta.env.VITE_BACKEND_BASE_URL}${profilePictureUrl}`);
     const fileInputRef = useRef(null);

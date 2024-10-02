@@ -1,22 +1,37 @@
 import Comment from './definitions/Comment.js';
 import CommentLike from './definitions/CommentLike.js';
 import Post from './definitions/Post.js';
+import User from './definitions/User.js';
 class CommentModel {
-        static async createComment(postId, userId, content) {
-                const comment = await Comment.create({
-                        userId: userId,
-                        content: content,
-                        postId: postId
-                    })      
-                    if (!comment) {
-                        throw new Error('Comment not created');
-                    }
-                    await Post.increment('commentsCount', {
-                        by: 1,
-                        where: { postId },
-                  } );
-                    return comment;
-        }
+    static async createComment(postId, userId, commentContent) {
+        console.log('userId in create comment:', userId);
+        const comment = await Comment.create({
+            userId: userId,
+            postId: postId,
+            content: commentContent
+        })        
+
+        if (!comment)
+            throw new Error('Comment not created');
+
+        await Post.increment('commentsCount', {
+            by: 1,
+            where: { postId },
+        });
+
+        await comment.reload({
+            include: [
+                {
+                    model: User,
+                    as: 'Author',
+                    attributes: ['userId', 'name', 'profilePicture']
+                }
+            ]
+        });
+
+
+        return comment;
+    }
         static async updateComment(commentId, postId, userId, content) {
                 const comment = await Comment.update(
                         {
@@ -63,15 +78,36 @@ class CommentModel {
                 return comment;
         }
 
-        static async getCommentsByPagination(limit, skip, postId) {
+        static async getCommentsByPagination(limit, skip, postId, userId) {
             const comments = await Comment.findAll({
                 where: {
                     postId: postId
                 },
+                include:[
+                    {
+                        model: User,
+                        as: 'Author',
+                        attributes: ['userId', 'name', 'profilePicture']
+                    }
+                ],
+                
                 limit: limit,
                 offset: skip,
-                raw: true
+                order: [['createdAt', 'DESC']]
             });
+            console.log('comments:', comments);
+            const likedCommentsIds = await CommentLike.findAll({
+                where: {
+                    commentId: comments.map(comment => comment.commentId),
+                    userId: userId
+                },
+                attributes: ['commentId']
+            });
+    
+            comments.forEach(comment => {
+                comment.dataValues.isLiked = likedCommentsIds.some(likedComment => likedComment.commentId === comment.commentId);
+            });  
+    
             return comments;
         }
     

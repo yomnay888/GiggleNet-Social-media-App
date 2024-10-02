@@ -1,3 +1,2 @@
-export const PROFILE_PIC_SIZE_LIMIT = 5 * 1024 * 1024;  // 5 MB
-export const POST_PHOTO_SIZE_LIMIT = 5 * 1024 * 1024;   // 5 MB
-export const POST_VIDEO_SIZE_LIMIT = 50 * 1024 * 1024;  // 50 MB
+export const PROFILE_PICTURE_SIZE_LIMIT = 5 * 1024 * 1024;  // 5 MB
+export const POST_MEDIA_SIZE_LIMIT = 30 * 1024 * 1024;  // 30 MB //ADD THE LIMIT TO CONSTRAINS

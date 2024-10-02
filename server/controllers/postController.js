@@ -1,25 +1,44 @@
 import postService from '../services/postService.js';
 class postController{
-        static async createPost(req, res) {
-            const { content} = req.body;
-            const userId = req.userId;
-            try {
-                const newPost = await postService.createPost(content,userId);
-                res.status(201).json({ message: 'Post created successfully', post: newPost });
-            } catch (error) {
-                res.status(400).json({ error: error.message });    
+        static async createPost(request, response) {
+            try{
+                const userId = request.userId;
+                const postContent = request.body.content;
+                console.log('postContent:', postContent);
+                const mediaFiles = (request.files || []).map(file => ({
+                    mediaType: file.mimetype.startsWith('image') ? 'image' : 'video',
+                    path: file.path.replaceAll('\\', '/'),
+                }))
+    
+                const createdPost = await postService.createPost(postContent, mediaFiles, userId);
+                console.log('createdPost:', createdPost);
+                return response.status(201).json(createdPost);
+            } catch(error){
+                console.error('Error creating post:', error);
+                return response.status(500).json({ message: error.message });
+            }
+    
         }
-    }
-        static async updatePost(req,res){
-            const postId= +req.params.postId;
-            const { content} = req.body;
-            const userId = req.userId;
+        static async updatePost(request,response){
             try {
-                const updatedPost = await postService.updatePost(content,postId,userId);
-                res.status(201).json({ message: 'Post updated successfully', post: updatedPost });
-            } catch (error) {
-                res.status(400).json({ error: error.message });    
-        }
+                const userId = request.userId;
+                const postId = +request.params.postId;
+                const postContent = request.body.content;
+                const existingMediaFiles = (request.body.existingMediaFiles || []).map(fileString => (JSON.parse(fileString)));
+                const newMediaFiles = (request.files || []).map(file => ({
+                    mediaType: file.mimetype.startsWith('image') ? 'image' : 'video',
+                    path: file.path.replaceAll('\\', '/'),
+                }))    
+    
+                const mediaFiles = [...existingMediaFiles, ...newMediaFiles];
+                console.log('mediaFiles:', mediaFiles);
+                const post = await postService.updatePost(postContent, postId, mediaFiles, userId);
+                return response.status(200).json(post);
+    
+            } catch(error){
+                console.error('Error updating post:', error);
+                return response.status(500).json({ message: error.message });
+            }
         }
         static async deletePost(req,res){
             const postId = +req.params.postId;
@@ -50,9 +69,10 @@ class postController{
        static async getPostsByPagination (request, response){
             const page = +request.query.page  ||1;
             const limit = +request.query.limit  ||10;
+            const userId = request.userId;
             console.log(page,limit);
             try{
-                const paginationResults = await postService.getPostsByPagination(page, limit);
+                const paginationResults = await postService.getPostsByPagination(userId,page, limit);
                 return response.status(200).json(paginationResults);
             }catch(error){
                 console.error('Error getting posts:', error);

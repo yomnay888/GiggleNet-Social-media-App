@@ -1,9 +1,10 @@
 import authService from '../services/authService.js';
 class authController{
     static async signUp(req, res) {
-    const { username, firstname,lastname,email, password } = req.body;
+    const { username, firstName,lastName,email, password } = req.body;
     try {
-      const name= firstname + " " + lastname;
+      const name= firstName + " " + lastName;
+      console.log('nameee',name);
       const newUser = await authService.signUp(username,name, email, password);
       res.status(201).json({ message: 'User registered successfully', user: newUser }); //should put the jwt
     } catch (error) {
